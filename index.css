@@ -1,0 +1,39 @@
+div#container {
+  background-color: red;
+  height: auto;
+}
+
+div#header {
+  background-color: blue;
+  height: 200px;
+}
+
+div#content {
+  background-color: grey;
+  height: auto;
+  min-height: 550px;
+}
+
+div#sidebar {
+  background-color: green;
+  height: auto;
+  min-height: 550px;
+}
+
+div#footer{
+  background-color: blue;
+}
+
+div#footerL,div#footer,div#footerR {
+  height: 100px;
+}
+
+ul#products {
+  padding: 10px;
+}
+nav#navbar {
+ margin-top:145px;
+}
+#content > .dropdown {
+  padding: 10px;
+}
