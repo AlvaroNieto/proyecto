@@ -26,4 +26,21 @@ function validationPass(){
       return true;
       //return false;
     }
+};
+
+function alertlogout() {
+    var logout = confirm("Are you sure you want to log out?");
+    if (logout == true) {
+        window.location.href = "logout.php";
+    }
+};
+
+function unlock() {
+  button = document.getElementById('submiter');
+  console.log("test");
+  if (button.disabled == true) {
+    button.disabled = false;
+  } else {
+    button.disabled = true;
+  }
 }

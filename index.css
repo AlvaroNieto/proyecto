@@ -38,3 +38,13 @@ nav#navbar {
 #content > .dropdown {
   padding: 10px;
 }
+
+.input-group{
+  width: 100%;
+}
+
+.buttonright {
+}
+#toggler {
+  float:right;
+}

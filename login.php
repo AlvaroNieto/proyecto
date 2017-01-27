@@ -32,12 +32,4 @@ if ($username != NULL && $password != NULL) {
       var_dump($sql);
   }
 }
-
- //var_dump("-->".$_POST['remember']."<--");
- //if($_POST['remember'] !== "rememberme") {
- //   session_destroy();
- //}
-
- //var_dump($_SESSION);
- //session_destroy();
 ?>

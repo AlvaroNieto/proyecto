@@ -7,16 +7,37 @@
      <title></title>
      <link href="css/bootstrap.css" rel="stylesheet">
      <link href="js/bootstrap.js" rel="stylesheet">
-     <link rel="stylesheet" type="text/css" href="index.css?v=0xkl)Xip/t|=7s3x">
+     <link rel="stylesheet" type="text/css" href="index.css?v=xkl)Xip/t|=7s3x">
      </head>
      <body>
        <?php
        session_start();
-       var_dump($_SESSION);
-       var_dump($_POST);
-       if ($_SESSION == NULL) {
-         $_SESSION["user"]= "unloged";
+       if ($_SESSION['user'] == "unloged") {
          header("Location: index.php");
+       } else {
+       $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+
+       //TESTING IF THE CONNECTION WAS RIGHT
+       if ($connection->connect_errno) {
+           printf("Connection failed: %s\n", $connection->connect_error);
+           exit();
+       }
+       $sql="select * from users where
+       nick='".$_SESSION["user"]."';";
+
+       if ($result = $connection->query($sql)) {
+         if ($result->num_rows==0) {
+           echo "Error";
+           $_SESSION="unloged";
+           header("Location: index.php");
+         } else {
+             $obj = $result->fetch_object();
+           }
+
+         } else {
+           echo "Wrong Query";
+           var_dump($sql);
+       }
        }
        ?>
       <div class="container">
@@ -75,7 +96,7 @@
                        </li>";
                      } else { echo "
                        <li><a href='profile.php'>".$_SESSION['user']."</a></li>
-                       <li><a id='logerout' href=logout.php value='logout'>Logout</a></li>
+                       <li><a id='logerout' onclick='return alertlogout()' href='#' value='logout'>Logout</a></li>
                        ";
                    }
 
@@ -88,30 +109,34 @@
            </div>
            <div class="col-md-12" id="content">
              <div class="col-md-6" id="personalinfo">
-               <form id="registerform" method="POST">
+               <form id="registerform" method="POST" onSubmit="return validationPass()" action="dataupdate.php">
                  <fieldset>
                    <legend>Personal information:</legend>
                      <div class="form-group">
                        <br />
                        <label for="email">Email address</label>
-                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo "$obj->email";?>">
                        <br />
-                       <label for="passowrd">Password</label>
-                       <input required type="password" name="password" class="form-control" id="password" placeholder="Password">
+                       <label for="passowrd">New password</label>
+                       <input type="password" name="password" class="form-control" id="password" placeholder="New password">
                        <br />
-                       <label for="password2">Confirm password</label>
-                       <input required type="password" name="password2" class="form-control" id="password2" placeholder="Password2">
+                       <label for="password2">Confirm new password</label>
+                       <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm new password">
                        <br />
                        <label for="name1">Name</label>
-                       <input required type="text" name="name" class="form-control" id="name1" placeholder="Manolo">
+                       <input type="text" name="name" class="form-control" id="name1" value="<?php echo "$obj->name";?>">
                        <br />
                        <label for="surname">Surnames</label>
-                       <input required type="text" name="surname" class="form-control" id="surname" placeholder="El del Bombo">
+                       <input type="text" name="surname" class="form-control" id="surname" value="<?php echo "$obj->surname";?>">
                        <br />
                        <label for="address">Address</label>
-                       <input required type="text" name="address" class="form-control" id="address" placeholder="Sevilla C/ Piruleta 123">
+                       <input type="text" name="address" class="form-control" id="address" value="<?php echo "$obj->address";?>">
+                       <br />
+                       <label for="password2">Actual password</label>
+                       <input required type="password" name="passwordold" class="form-control" id="passwordold" placeholder="Original password">
                      </div><br/>
-                       <button type="submit" value="register" class="btn btn-primary">Save changes</button>
+                       <button type="submit" value="register" class="btn btn-primary" id="submiter" disabled>Save changes</button>
+                       <button type="button" onclick="unlock()" id="toggler" class="btn btn-primary">Edit personal information.</button>
                   </fieldset>
                </form>
              </div>
@@ -122,22 +147,22 @@
                      <div class="form-group">
                        <br />
                        <label for="email">Placeholders</label>
-                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                       <input type="email" name="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                        <br />
                        <label for="passowrd">Password</label>
-                       <input required type="password" name="password" class="form-control" id="password" placeholder="Password">
+                       <input required type="password" name="password" class="form-control" placeholder="Password">
                        <br />
                        <label for="password2">Confirm password</label>
-                       <input required type="password" name="password2" class="form-control" id="password2" placeholder="Password2">
+                       <input required type="password" name="password2" class="form-control" placeholder="Password2">
                        <br />
                        <label for="name1">Name</label>
-                       <input required type="text" name="name" class="form-control" id="name1" placeholder="Manolo">
+                       <input required type="text" name="name" class="form-control"  placeholder="Manolo">
                        <br />
                        <label for="surname">Surnames</label>
-                       <input required type="text" name="surname" class="form-control" id="surname" placeholder="El del Bombo">
+                       <input required type="text" name="surname" class="form-control" placeholder="El del Bombo">
                        <br />
                        <label for="address">Address</label>
-                       <input required type="text" name="address" class="form-control" id="address" placeholder="Sevilla C/ Piruleta 123">
+                       <input required type="text" name="address" class="form-control" placeholder="Sevilla C/ Piruleta 123">
                      </div><br/>
                        <button type="submit" value="register" class="btn btn-primary">Save changes</button>
                   </fieldset>
@@ -175,7 +200,8 @@
              integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
              crossorigin="anonymous"></script>
           <script type="text/javascript" src="js/bootstrap.min.js">
-
+          </script>
+          <script type="text/javascript" src="js/check.js">
           </script>
      </body>
  </html>

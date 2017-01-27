@@ -39,7 +39,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                     <li><a href="#">Cart</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                   </ul>
                   <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -74,7 +74,7 @@
                       </li>";
                     } else { echo "
                       <li><a href='profile.php'>".$_SESSION['user']."</a></li>
-                      <li><a id='logerout' href=logout.php value='logout'>Logout</a></li>
+                      <li><a id='logerout' onclick='return alertlogout()' href='#' value='logout'>Logout</a></li>
                       ";
                   }
 
@@ -191,7 +191,8 @@
             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
             crossorigin="anonymous"></script>
          <script type="text/javascript" src="js/bootstrap.min.js">
-
+         </script>
+         <script type="text/javascript" src="js/check.js">
          </script>
     </body>
 </html>
