@@ -13,11 +13,6 @@ function validationPass(){
     alert ("La contraseña no puede contener espacios en blanco");
     return false;
   }
-  //que no esten los campos vacios
-  if (passw2.length == 0 || passw3.length == 0){
-    alert("Los campos de la password no pueden quedar vacios");
-    return false;
-  }
   //que ambas contraseñas coincidan
   if (passw2 != passw3){
     alert("Las passwords deben de coincidir");
@@ -34,13 +29,3 @@ function alertlogout() {
         window.location.href = "logout.php";
     }
 };
-
-function unlock() {
-  button = document.getElementById('submiter');
-  console.log("test");
-  if (button.disabled == true) {
-    button.disabled = false;
-  } else {
-    button.disabled = true;
-  }
-}

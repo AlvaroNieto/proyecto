@@ -4,7 +4,42 @@
      <meta charset="utf-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title></title>
+     <title>Proyecto PHP</title>
+     <script src="https://code.jquery.com/jquery-3.1.1.js">
+     </script>
+     <script>
+     $(function() {
+        $( "#toggler" ).click(function() {
+          var state = ($( "#submiter" ).prop('disabled'));
+          if ( state === false) {
+            $( "#submiter" ).prop('disabled',true);
+            $( "#alterdata :input" ).prop('disabled',true);
+            $( "#alterdata :input[type='text'],input[type='email']" ).each(function() {
+              var $this = $(this);
+              $this.attr("placeholder", $this.attr("value")).removeAttr("value");
+            });
+          } else {
+            $( "#submiter" ).prop('disabled',false);
+            $( "#alterdata :input" ).prop('disabled',false);
+            $( "#alterdata :input[type='text'],input[type='email']" ).each(function() {
+              var $this = $(this);
+              $this.attr("value", $this.attr("placeholder")).removeAttr("placeholder");
+            });
+          }
+        });
+      });
+      function unlock() {
+        button = document.getElementById('submiter');
+        console.log("test");
+        if (button.disabled == true) {
+          button.disabled = false;
+          document.getElementById('email').removeAttribute('disabled');
+        } else {
+          button.disabled = true;
+          document.getElementById('email').disabled = true;
+        }
+      }
+    </script>
      <link href="css/bootstrap.css" rel="stylesheet">
      <link href="js/bootstrap.js" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="index.css?v=xkl)Xip/t|=7s3x">
@@ -112,31 +147,31 @@
                <form id="registerform" method="POST" onSubmit="return validationPass()" action="dataupdate.php">
                  <fieldset>
                    <legend>Personal information:</legend>
-                     <div class="form-group">
+                     <div class="form-group" id="alterdata">
                        <br />
                        <label for="email">Email address</label>
-                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" value="<?php echo "$obj->email";?>">
+                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo "$obj->email";?>" disabled>
                        <br />
-                       <label for="passowrd">New password</label>
-                       <input type="password" name="password" class="form-control" id="password" placeholder="New password">
+                       <label for="password">New password</label>
+                       <input type="password" name="password" class="form-control" id="password" placeholder="New password" disabled>
                        <br />
                        <label for="password2">Confirm new password</label>
-                       <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm new password">
+                       <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm new password" disabled>
                        <br />
                        <label for="name1">Name</label>
-                       <input type="text" name="name" class="form-control" id="name1" value="<?php echo "$obj->name";?>">
+                       <input type="text" name="name" class="form-control" id="name1" placeholder="<?php echo "$obj->name";?>" disabled>
                        <br />
                        <label for="surname">Surnames</label>
-                       <input type="text" name="surname" class="form-control" id="surname" value="<?php echo "$obj->surname";?>">
+                       <input type="text" name="surname" class="form-control" id="surname" placeholder="<?php echo "$obj->surname";?>" disabled>
                        <br />
                        <label for="address">Address</label>
-                       <input type="text" name="address" class="form-control" id="address" value="<?php echo "$obj->address";?>">
+                       <input type="text" name="address" class="form-control" id="address" placeholder="<?php echo "$obj->address";?>" disabled>
                        <br />
-                       <label for="password2">Actual password</label>
-                       <input required type="password" name="passwordold" class="form-control" id="passwordold" placeholder="Original password">
+                       <label for="passwordold">Actual password</label>
+                       <input required type="password" name="passwordold" class="form-control" id="passwordold" placeholder="Original password" disabled>
                      </div><br/>
                        <button type="submit" value="register" class="btn btn-primary" id="submiter" disabled>Save changes</button>
-                       <button type="button" onclick="unlock()" id="toggler" class="btn btn-primary">Edit personal information.</button>
+                       <button type="button" id="toggler" class="btn btn-primary">Edit personal information</button>
                   </fieldset>
                </form>
              </div>
@@ -194,14 +229,13 @@
            </div>
          </div>
        </div>
-         <?php
-          ?>
-          <script src="https://code.jquery.com/jquery-3.1.1.js"
-             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-             crossorigin="anonymous"></script>
+
           <script type="text/javascript" src="js/bootstrap.min.js">
           </script>
           <script type="text/javascript" src="js/check.js">
           </script>
+
+
+
      </body>
  </html>

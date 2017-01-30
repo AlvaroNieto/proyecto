@@ -82,7 +82,7 @@
                 <label for="email">Email address</label>
                 <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                 <br />
-                <label for="passowrd">Password</label>
+                <label for="password">Password</label>
                 <input required type="password" name="password" class="form-control" id="password" placeholder="Password">
                 <br />
                 <label for="password2">Confirm password</label>
