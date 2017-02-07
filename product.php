@@ -5,84 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <script src="https://code.jquery.com/jquery-3.1.1.js">
-    </script>
-    <script>
-       <?php
-       $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-       if ($connection->connect_errno) {
-           printf("Connection failed: %s\n", $connection->connect_error);
-           exit();
-       }
-       $sql2="select pic from item";
-       $result2 = $connection->query($sql2);
-       $n=1;
-       while ($obj2 = $result2->fetch_object()) {
-         ${"image".$n}=$obj2->pic;
-         $n++;
-       }
-        ?>
-     $(function() {
-       var imagen = new Array(4)
-       imagen[1]="<?php echo "$image1" ?>"
-       imagen[2]="<?php echo "$image2" ?>"
-       imagen[3]="<?php echo "$image3" ?>"
-       imagen[4]="<?php echo "$image2" ?>"
-       var num = 1;
-       var salto = new Array(4)
-       salto[1]=salto1
-       salto[2]=salto2
-       salto[3]=salto3
-       salto[4]=salto4
-       $("#salto1").css("background-color","white");
-       $("#adelante").click(function() {
-         $("#adelante").clearQueue();
-         num=num+1 //Sumar un valor a la valiable
-         if (num==5) //Bucle en caso de dar la vuelta completa a la galeria
-         {num=1}
-         $(".saltos").css("background-color",""); //Quitar cualquier boton directo
-         $(salto[num]).css("background-color","white"); //Cambiar el color del boton al que corresponde la imagen
-         $("salto")
-         $("#foto").fadeTo("slow",0); //Desvanecer imagen
-         $("#foto").delay(100) //Delay para que la imagen no cambiar automaticamente
-         .queue(function(next) { $(this).attr("src",imagen[num]); next(); }); //cambiar el valor del src de la imagen por la variable imagen + num
-         $("#foto").fadeTo("slow",1); //Mostrar imagen cambiada
-       });
-       $("#atrasq").click(function() { //Igual pero hacia atras
-         num=num-1
-         if (num==0)
-         {num=4}
-         $(".saltos").css("background-color","");
-         $(salto[num]).css("background-color","white");
-         $("#foto").fadeTo("slow",0);
-         $("#foto").delay(100)
-          .queue(function(next) { $(this).attr("src",imagen[num]); next(); });
-         $("#foto").fadeTo("slow",1);
-       });
-         $("#adelante,#atras").mouseenter(function() { //Cambiar estilo de los botones al pasar el raton
-           $(this).css("border-top","3px solid white")
-           .css("border-right","3px solid white")
-           .css("border-radius", "8px");
-         }).mouseleave(function() {
-           $(this).css("border-top","3px solid #494949")
-           .css("border-right","3px solid #494949")
-           .css("border-radius", "0px");
-         });
-         //Selector de foto
-         $(".saltos").click(function() {
-           var index = $(this).index();
-           num=index-2
-           $(".saltos").css("background-color","");
-           $("#foto").fadeTo("slow",0);
-           $("#foto").delay(100)
-           .queue(function(next) { $(this).attr("src",imagen[num]); next(); });
-           $("#foto").fadeTo("slow",1);
-           $(this).css("background-color","white");
-           });
-       });
-    </script>
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="js/bootstrap.js">
+    <link href="js/bootstrap.js" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="index.css?v=0x#kl)Xip/t|=7s3x">
     </head>
     <body>
@@ -169,7 +93,11 @@
           </div>
           <div class="col-md-2" id="content">
             <?php
-
+            $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+            if ($connection->connect_errno) {
+                printf("Connection failed: %s\n", $connection->connect_error);
+                exit();
+            }
             $sql="select * from category;";
             $result = $connection->query($sql);
             while ($obj = $result->fetch_object()) {
@@ -186,7 +114,6 @@
                   </div>';
                 }
             }
-
              ?>
             <!--
             <div class="dropdown">
@@ -204,15 +131,7 @@
 
           </div>
           <div class="col-md-10" id="sidebar">
-            <div id="menucontainer">
-             <img src="images/multipla.jpg" id="foto">
-             <i id="adelante" class="arrow"></i>
-             <i id="atras" class="arrow arrow-left"></i>
-             <div id="salto1" class="saltos"></div>
-             <div id="salto2" class="saltos"></div>
-             <div id="salto3" class="saltos"></div>
-             <div id="salto4" class="saltos"></div>
-           </div>
+            
           </div>
           <!-- footer -->
           <div class="col-md-2" id="footerL">
@@ -238,7 +157,9 @@
       </div>
         <?php
          ?>
-
+         <script src="https://code.jquery.com/jquery-3.1.1.js"
+            integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+            crossorigin="anonymous"></script>
          <script type="text/javascript" src="js/bootstrap.min.js">
          </script>
          <script type="text/javascript" src="js/check.js">

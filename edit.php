@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 var_dump($_POST);
@@ -11,15 +10,17 @@ if ($_SESSION['type'] !== "admin") {
       printf("Connection failed: %s\n", $connection->connect_error);
       exit();
   }
-    $sql="UPDATE `item` SET `name` = '".$_POST['name']."', `value` = '".$_POST['value']."', `category` =
-    '".$_POST['category']."', `subcategory` = '".$_POST['subcategory']."', `description` =
-    '".$_POST['description']."', `stock` = '".$_POST['stock']."',
+  $id=$_POST['val'];
+    $sql="UPDATE `item` SET `name` = '".$_POST['name'."$id"]."', `value` = '".$_POST['value'."$id"]."', `subcategory_name` = '".$_POST['subcategory'."$id"]."', `description` =
+    '".$_POST['description'."$id"]."', `stock` = '".$_POST['stock'."$id"]."',
      `pic` = '".$_POST['pic']."' WHERE `item`.`reference` = '".$_POST['val']."';";
     if ($result = $connection->query($sql)) {
       echo "Data updated. Returning...";
+      var_dump($sql);
       header( "refresh:2; url=productcreator.php" );
     } else {
       echo "something went wrong";
+      var_dump($sql);
     }
   }
  ?>

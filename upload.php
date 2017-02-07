@@ -13,13 +13,14 @@ $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
-$sql="INSERT INTO `item` (`reference`, `name`, `value`, `category`,
-`subcategory`, `description`, `stock`, `pic`) VALUES
-(NULL, '".$_POST['name']."', '".$_POST['value']."', '".$_POST['category']."', '".$_POST['subcategory']."',
+$sql="INSERT INTO `item` (`reference`, `name`, `value`,
+`subcategory_name`, `description`, `stock`, `pic`) VALUES
+(NULL, '".$_POST['name']."', '".$_POST['value']."', '".$_POST['subcategory']."',
  '".$_POST['description']."', '".$_POST['stock']."', 'images/".$_FILES['fileToUpload']['name']."');";
  var_dump($sql);
   if ($result = $connection->query($sql)) {
-    header("Location: productcreator.php");
+    echo "test";
+    //header("Location: productcreator.php");
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".";
