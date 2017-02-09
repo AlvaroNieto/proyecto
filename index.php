@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+l<!DOCTYPE html>
 <html lang="">
   <head>
     <meta charset="utf-8">
@@ -8,20 +8,40 @@
     <script src="https://code.jquery.com/jquery-3.1.1.js">
     </script>
     <script>
-       <?php
-       $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-       if ($connection->connect_errno) {
-           printf("Connection failed: %s\n", $connection->connect_error);
-           exit();
-       }
-       $sql2="select pic from item";
-       $result2 = $connection->query($sql2);
-       $n=1;
-       while ($obj2 = $result2->fetch_object()) {
-         ${"image".$n}=$obj2->pic;
-         $n++;
-       }
-        ?>
+    <?php
+    $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+    if ($connection->connect_errno) {
+        printf("Connection failed: %s\n", $connection->connect_error);
+        exit();
+    }
+    $sql2="select pic from item";
+    $result2 = $connection->query($sql2);
+    $n=1;
+    while ($obj2 = $result2->fetch_object()) {
+      ${"image".$n}=$obj2->pic;
+      $n++;
+    }
+    function buttons() {
+      global $connection;
+      $sql="select * from category;";
+      $result = $connection->query($sql);
+      while ($obj = $result->fetch_object()) {
+        $sql1="select * from subcategory where category_id=$obj->category_id;";
+        $result1 = $connection->query($sql1);
+        echo '<div class="dropdown itemdrop">
+          <button class="btn btn-default dropdown-toggle items" type="button" id="menu1" data-toggle="dropdown">'.$obj->category_name.'
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">';
+          while ($obj1 = $result1->fetch_object()) {
+            echo '<li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="#">'.$obj1->subcategory_name.'</a></li>
+              </ul>
+            </div>';
+          }
+      }
+    }
+
+     ?>
      $(function() {
        var imagen = new Array(4)
        imagen[1]="<?php echo "$image1" ?>"
@@ -83,7 +103,7 @@
     </script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js">
-    <link rel="stylesheet" type="text/css" href="index.css?v=0x#kl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="index.css?v=0xkl)Xip/t|=7s3x">
     </head>
     <body>
       <?php
@@ -95,10 +115,13 @@
       }
 
       ?>
+
+
      <div class="container">
        <?php
        if ($_SESSION["type"] == "admin") {
          echo "<a class='btn btn-primary' href='productcreator.php'>Product management</a>";
+         echo "<a class='btn btn-primary' href='usermanagement.php'>Users management</a>";
        }
         ?>
         <div class="col-md-12" id="container">
@@ -168,26 +191,28 @@
 
           </div>
           <div class="col-md-2" id="content">
-            <?php
-
-            $sql="select * from category;";
-            $result = $connection->query($sql);
-            while ($obj = $result->fetch_object()) {
-              $sql1="select * from subcategory where category_id=$obj->category_id;";
-              $result1 = $connection->query($sql1);
-              echo '<div class="dropdown itemdrop">
-                <button class="btn btn-default dropdown-toggle items" type="button" id="menu1" data-toggle="dropdown">'.$obj->category_name.'
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">';
-                while ($obj1 = $result1->fetch_object()) {
-                  echo '<li role="presentation">
-                          <a role="menuitem" tabindex="-1" href="#">'.$obj1->subcategory_name.'</a></li>
-                    </ul>
-                  </div>';
-                }
-            }
-
+            <legend>Diésel:</legend>
+              <?php
+              buttons($connection);
+               ?>
+            <fieldset>
+               <legend>Gasoil:</legend>
+               <?php
+               buttons($connection);
+                ?>
+            </fieldset>
+            <fieldset>
+              <legend>Gasolina:</legend>
+              <?php
+              buttons($connection);
+               ?>
+           </fieldset>
+           <fieldset>
+             <legend>Eléctrico:</legend>
+             <?php
+             buttons($connection);
              ?>
+          </fieldset>
             <!--
             <div class="dropdown">
               <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
@@ -213,6 +238,52 @@
              <div id="salto3" class="saltos"></div>
              <div id="salto4" class="saltos"></div>
            </div>
+           <div class="container" id="highlights">
+              <div id="products" class="row list-group">
+                  <div class="item  col-xs-5 col-lg-5">
+                      <div class="thumbnail">
+                          <img class="group list-group-image" src="images/original.jpg" alt="" />
+                          <div class="caption">
+                              <h4 class="group inner list-group-item-heading">
+                                  Product title</h4>
+                              <p class="group inner list-group-item-text">
+                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                              <div class="row">
+                                  <div class="col-xs-12 col-md-6">
+                                      <p class="lead">
+                                          $21.000</p>
+                                  </div>
+                                  <div class="col-xs-12 col-md-6">
+                                      <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="item  col-xs-5 col-lg-5">
+                      <div class="thumbnail">
+                          <img class="group list-group-image" src="images/multipla.jpg" alt="" />
+                          <div class="caption">
+                              <h4 class="group inner list-group-item-heading">
+                                  Product title</h4>
+                              <p class="group inner list-group-item-text">
+                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                              <div class="row">
+                                  <div class="col-xs-12 col-md-6">
+                                      <p class="lead">
+                                          $21.000</p>
+                                  </div>
+                                  <div class="col-xs-12 col-md-6">
+                                      <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+               </div>
+            </div>
           </div>
           <!-- footer -->
           <div class="col-md-2" id="footerL">
@@ -237,6 +308,7 @@
         </div>
       </div>
         <?php
+
          ?>
 
          <script type="text/javascript" src="js/bootstrap.min.js">

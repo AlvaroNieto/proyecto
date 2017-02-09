@@ -14,8 +14,8 @@ $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
 $sql="INSERT INTO `item` (`reference`, `name`, `value`,
-`subcategory_name`, `description`, `stock`, `pic`) VALUES
-(NULL, '".$_POST['name']."', '".$_POST['value']."', '".$_POST['subcategory']."',
+`subcategory_name`, `type`, `description`, `stock`, `pic`) VALUES
+(NULL, '".$_POST['name']."', '".$_POST['value']."', '".$_POST['subcategory']."', '".$_POST['type']."',
  '".$_POST['description']."', '".$_POST['stock']."', 'images/".$_FILES['fileToUpload']['name']."');";
  var_dump($sql);
   if ($result = $connection->query($sql)) {

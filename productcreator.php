@@ -20,7 +20,7 @@
       border: 1px solid black;
     }
     input[type="text"] {
-      width: 60%
+      width: 80%;
     }
     input[type="number"] {
       width: 60%
@@ -31,10 +31,14 @@
     tbody > tr:hover {
       background-color: DarkGrey;
     }
+    th {
+      text-align: center;
+    }
     </style>
   </head>
   <body>
-    <a class='btn btn-primary' href='index.php'>Home</a><br><br>
+    <a class='btn btn-primary' href='index.php'>Home</a>
+    <a class='btn btn-primary' href='usermanagement.php'>Users management</a><br><br>
     <?php
     session_start();
     if ($_SESSION['type'] !== "admin") {
@@ -52,6 +56,7 @@
           <th>Name</th>
           <th>Value</th>
           <th>Subcategory</th>
+          <th>Type</th>
           <th>Description</th>
           <th>stock</th>
           <th>Picture</th>
@@ -62,6 +67,7 @@
       echo "<td><input type='text' name='name'></td>";
       echo "<td><input type='number' name='value'></td>";
       echo "<td><input type='text' name='subcategory'></td>";
+      echo "<td><input type='text' name='type'></td>";
       echo "<td><textarea cols='40' rows='5' name='description'></textarea></td>";
       echo "<td><input type='number' name='stock'></td>";
       echo "<td><input type='file' name='fileToUpload' id='fileToUpload'></td>";
@@ -87,6 +93,7 @@
                   <th>Name</th>
                   <th>Value</th>
                   <th>Subcategory</th>
+                  <th>type</th>
                   <th>Description</th>
                   <th>stock</th>
                   <th>Picture</th>
@@ -96,6 +103,7 @@
             echo "<td><input type='text' name='name$obj->reference' value='$obj->name'></td>";
             echo "<td><input type='number' name='value$obj->reference' value='$obj->value'></td>";
             echo "<td><input type='text' name='subcategory$obj->reference' value='$obj->subcategory_name'></td>";
+            echo "<td><input type='text' name='type$obj->reference' value='$obj->type'></td>";
             echo "<td><input type='text' name='description$obj->reference' value='$obj->description'></td>";
             echo "<td><input type='number' name='stock$obj->reference' value='$obj->stock' ></td>";
             echo "<td><img src=".$obj->pic."></img><input type='text' name='pic' value='$obj->pic'></td>";
