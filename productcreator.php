@@ -34,6 +34,9 @@
     th {
       text-align: center;
     }
+    td {
+      height: 60px !important;
+    }
     </style>
   </head>
   <body>
@@ -55,7 +58,9 @@
         <tr>
           <th>Name</th>
           <th>Value</th>
-          <th>Subcategory</th>
+          <th>Chassis</th>
+          <th>Transmission</th>
+          <th>Traction</th>
           <th>Type</th>
           <th>Description</th>
           <th>stock</th>
@@ -66,9 +71,11 @@
 
       echo "<td><input type='text' name='name'></td>";
       echo "<td><input type='number' name='value'></td>";
-      echo "<td><input type='text' name='subcategory'></td>";
+      echo "<td><input type='text' name='chassis'></td>";
+      echo "<td><input type='text' name='transmission'></td>";
+      echo "<td><input type='text' name='traction'></td>";
       echo "<td><input type='text' name='type'></td>";
-      echo "<td><textarea cols='40' rows='5' name='description'></textarea></td>";
+      echo "<td><input type='text' name='description'></td>";
       echo "<td><input type='number' name='stock'></td>";
       echo "<td><input type='file' name='fileToUpload' id='fileToUpload'></td>";
       echo "<td><input type='submit'></td>";
@@ -84,7 +91,7 @@
         exit();
     }
 
-    if ($result = $connection->query("SELECT * FROM item i JOIN subcategory s ON i.subcategory_name=s.subcategory_name")) {
+    if ($result = $connection->query("SELECT * FROM item")) {
         while($obj = $result->fetch_object()) {
             echo "<form action='edit.php' method='post'>";
             echo "<br> <table style='border:1px solid black'>
@@ -92,8 +99,10 @@
                 <tr>
                   <th>Name</th>
                   <th>Value</th>
-                  <th>Subcategory</th>
-                  <th>type</th>
+                  <th>Chassis</th>
+                  <th>Traction</th>
+                  <th>Transmission</th>
+                  <th>Type</th>
                   <th>Description</th>
                   <th>stock</th>
                   <th>Picture</th>
@@ -102,7 +111,9 @@
             echo "<tr>";
             echo "<td><input type='text' name='name$obj->reference' value='$obj->name'></td>";
             echo "<td><input type='number' name='value$obj->reference' value='$obj->value'></td>";
-            echo "<td><input type='text' name='subcategory$obj->reference' value='$obj->subcategory_name'></td>";
+            echo "<td><input type='text' name='chassis$obj->reference' value='$obj->chassis'></td>";
+            echo "<td><input type='text' name='traction$obj->reference' value='$obj->traction'></td>";
+            echo "<td><input type='text' name='transmission$obj->reference' value='$obj->transmission'></td>";
             echo "<td><input type='text' name='type$obj->reference' value='$obj->type'></td>";
             echo "<td><input type='text' name='description$obj->reference' value='$obj->description'></td>";
             echo "<td><input type='number' name='stock$obj->reference' value='$obj->stock' ></td>";

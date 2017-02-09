@@ -11,7 +11,7 @@ div#header {
 div#content {
   background-color: grey;
   height: auto;
-  min-height: 798px;
+  min-height: 780px;
   padding: 20px;
 }
 
@@ -82,7 +82,8 @@ img {
 }
 #highlights {
   width: 100%;
-  margin: 74px;
+  margin-top: 20px;
+  margin-left: 70;
   margin-bottom: 0px;
 }
 
@@ -142,4 +143,8 @@ img {
 .list-group-item-text
 {
     margin: 0 0 11px;
+}
+#imageslist {
+  width: auto;
+  height: 200px;
 }

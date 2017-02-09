@@ -13,8 +13,14 @@ if ($_SESSION['type'] !== "admin") {
   if (isset($_POST['val'])) {
     $id=$_POST['val'];
       $sql="UPDATE `item` SET `name` = '".$_POST['name'."$id"]."', `value` = '".$_POST['value'."$id"]."',
-       `subcategory_name` = '".$_POST['subcategory'."$id"]."', `type` = '".$_POST['type'."$id"]."', `description` = '".$_POST['description'."$id"]."',  `stock` = '".$_POST['stock'."$id"]."',
-       `pic` = '".$_POST['pic']."' WHERE `item`.`reference` = '".$_POST['val']."';";
+       `chassis` = '".$_POST['chassis'."$id"]."',
+       `transmission` = '".$_POST['transmission'."$id"]."',
+       `type` = '".$_POST['type'."$id"]."',
+       `traction` = '".$_POST['traction'."$id"]."',
+       `description` = '".$_POST['description'."$id"]."',
+       `stock` = '".$_POST['stock'."$id"]."',
+       `pic` = '".$_POST['pic']."'
+        WHERE `item`.`reference` = '".$_POST['val']."';";
       if ($result = $connection->query($sql)) {
         echo "Data updated. Returning...";
         header( "refresh:2; url=productcreator.php" );
