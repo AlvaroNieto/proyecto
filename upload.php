@@ -14,10 +14,18 @@ $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if image file is a actual image or fake image
 $sql="INSERT INTO `item` (`reference`, `name`, `value`,
-`subcategory_name`, `type`, `description`, `stock`, `pic`) VALUES
-(NULL, '".$_POST['name']."', '".$_POST['value']."', '".$_POST['subcategory']."', '".$_POST['type']."',
- '".$_POST['description']."', '".$_POST['stock']."', 'images/".$_FILES['fileToUpload']['name']."');";
+`type`, `chassis`, `transmission`, `traction`, `description`, `stock`, `pic`) VALUES
+(NULL, '".$_POST['name']."',
+ '".$_POST['value']."',
+ '".$_POST['type']."',
+ '".$_POST['chassis']."',
+ '".$_POST['transmission']."',
+ '".$_POST['traction']."',
+ '".$_POST['description']."',
+ '".$_POST['stock']."',
+ 'images/".$_FILES['fileToUpload']['name']."');";
  var_dump($sql);
+ var_dump($_POST);
   if ($result = $connection->query($sql)) {
     echo "test";
     //header("Location: productcreator.php");
@@ -50,6 +58,9 @@ $sql="INSERT INTO `item` (`reference`, `name`, `value`,
             }
         }
 
+  } else {
+    echo "error";
+    echo "$sql";
   }
 }
  ?>

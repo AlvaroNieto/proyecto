@@ -91,7 +91,7 @@
         exit();
     }
 
-    if ($result = $connection->query("SELECT * FROM item")) {
+    if ($result = $connection->query("SELECT * FROM item ORDER BY REFERENCE DESC")) {
         while($obj = $result->fetch_object()) {
             echo "<form action='edit.php' method='post'>";
             echo "<br> <table style='border:1px solid black'>

@@ -11,14 +11,14 @@ div#header {
 div#content {
   background-color: grey;
   height: auto;
-  min-height: 780px;
+  min-height: 990px;
   padding: 20px;
 }
 
 div#sidebar {
   background-color: green;
   height: auto;
-  min-height: 780px;
+  min-height: 990px;
 }
 
 div#footer{
@@ -29,6 +29,9 @@ div#footerL,div#footer,div#footerR {
   height: 100px;
 }
 
+div#footerL,div#footerR {
+  background-color: red;
+}
 ul#products {
   padding: 10px;
 }
@@ -83,7 +86,6 @@ img {
 #highlights {
   width: 100%;
   margin-top: 20px;
-  margin-left: 70;
   margin-bottom: 0px;
 }
 
@@ -147,4 +149,15 @@ img {
 #imageslist {
   width: auto;
   height: 200px;
+}
+option:checked {
+  background: linear-gradient(grey, grey);
+  color: blue;
+font-style: italic;
+  border-radius: 5px;
+}
+
+#itemdescription {
+  min-height: 150px;
+  text-align: justify;
 }

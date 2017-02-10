@@ -21,13 +21,11 @@ l<!DOCTYPE html>
       ${"image".$n}=$obj2->pic;
       $n++;
     }
-
-
-     ?>
+    ?>
     </script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js">
-    <link rel="stylesheet" type="text/css" href="index.css?v=0xkl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="index.css?v=0xkl)ip/t|=7s3x">
     </head>
     <body>
       <?php
@@ -36,6 +34,7 @@ l<!DOCTYPE html>
       var_dump($_POST);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
+        $_SESSION["type"]= "none";
       }
 
       ?>
@@ -44,9 +43,9 @@ l<!DOCTYPE html>
      <div class="container">
        <?php
        if ($_SESSION["type"] == "admin") {
-         echo "<a class='btn btn-primary'
+         echo "<a class='btn btn-primary btn-xs'
          href='productcreator.php'>Product management</a>";
-         echo "<a class='btn btn-primary'
+         echo "<a class='btn btn-primary btn-xs'
          href='usermanagement.php'>Users management</a>";
        }
         ?>
@@ -120,20 +119,58 @@ l<!DOCTYPE html>
           </div>
           <div class="col-md-2" id="content">
             <fieldset>
-              <legend>Diésel:</legend>
-
-            </fieldset>
-            <fieldset>
-              <legend>Gasoil:</legend>
-
-            </fieldset>
-            <fieldset>
-              <legend>Gasolina:</legend>
-
-            </fieldset>
-            <fieldset>
-              <legend>Eléctrico:</legend>
-
+              <legend>Filtrar:</legend>
+              <form method="post" action="index.php">
+                <div class="form-group">
+                  <label for="sel1">Motor</label>
+                  <select multiple class="form-control" name="type" id="sel1">
+                    <?php
+                      $sql="select DISTINCT type from item;";
+                      $result = $connection->query($sql);
+                      while ($obj = $result->fetch_object()) {
+                        echo "<option>$obj->type</option>";
+                      }
+                     ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="sel4">Tracción</label>
+                  <select multiple class="form-control" name="traction" id="sel4">
+                    <?php
+                      $sql="select DISTINCT traction from item;";
+                      $result = $connection->query($sql);
+                      while ($obj = $result->fetch_object()) {
+                        echo "<option>$obj->traction</option>";
+                      }
+                     ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="sel2">Chasis</label>
+                  <select multiple class="form-control" name="chassis" id="sel2">
+                    <?php
+                      $sql="select DISTINCT chassis from item;";
+                      $result = $connection->query($sql);
+                      while ($obj = $result->fetch_object()) {
+                        echo "<option>$obj->chassis</option>";
+                      }
+                     ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="sel3">Transmisión</label>
+                  <select multiple class="form-control" name="transmission" id="sel3">
+                    <?php
+                      $sql="select DISTINCT transmission from item;";
+                      $result = $connection->query($sql);
+                      while ($obj = $result->fetch_object()) {
+                        echo "<option value='$obj->transmission'>$obj->transmission</option>";
+                      }
+                     ?>
+                  </select>
+                </div>
+                <input type="submit" class="btn btn-default btn-xs" value="Filtrar">
+            </form>
             </fieldset>
             <!--
             <div class="dropdown">
@@ -153,7 +190,34 @@ l<!DOCTYPE html>
           <div class="col-md-10" id="sidebar">
            <div class="container" id="highlights">
               <div id="products" class="row list-group">
-                  <div class="item  col-xs-5 col-lg-5">
+                <?php
+                $sql = "SELECT * FROM ITEM ORDER BY REFERENCE DESC;";
+                $result = $connection->query($sql);
+                for ($i=0; $i < 4; $i++) {
+                  $obj = $result->fetch_object();
+                  echo '<div class="item  col-xs-6 col-lg-6">
+                          <div class="thumbnail">
+                              <img class="group list-group-image" src="'.$obj->pic.'" id="imageslist" alt="" />
+                              <div class="caption">
+                                  <h4 class="group inner list-group-item-heading">
+                                      '.$obj->name.'</h4>
+                                  <p class="group inner list-group-item-text" id="itemdescription">
+                                      '.$obj->description.'</p>
+                                  <div class="row">
+                                      <div class="col-xs-12 col-md-6">
+                                          <p class="lead">
+                                              '.$obj->value.'€</p>
+                                      </div>
+                                      <div class="col-xs-12 col-md-6">
+                                          <a class="btn btn-success" href="#">Add to cart</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>';
+                }
+                 ?>
+                  <!--<div class="item  col-xs-5 col-lg-5">
                       <div class="thumbnail">
                           <img class="group list-group-image" src="<?php echo "$image1" ?>" id="imageslist" alt="" />
                           <div class="caption">
@@ -235,11 +299,11 @@ l<!DOCTYPE html>
                                   </div>
                               </div>
                           </div>
-                      </div>
+                      </div>-->
                   </div>
                </div>
             </div>
-          </div>
+
           <!-- footer -->
           <div class="col-md-2" id="footerL">
             <address>
@@ -262,6 +326,7 @@ l<!DOCTYPE html>
           </div>
         </div>
       </div>
+        </div>
         <?php
 
          ?>
