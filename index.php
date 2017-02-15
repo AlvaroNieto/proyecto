@@ -14,13 +14,7 @@ l<!DOCTYPE html>
         printf("Connection failed: %s\n", $connection->connect_error);
         exit();
     }
-    $sql2="select pic from item ORDER BY `reference` DESC";
-    $result2 = $connection->query($sql2);
-    $n=1;
-    while ($obj2 = $result2->fetch_object()) {
-      ${"image".$n}=$obj2->pic;
-      $n++;
-    }
+
     ?>
     </script>
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -32,6 +26,7 @@ l<!DOCTYPE html>
       session_start();
       var_dump($_SESSION);
       var_dump($_POST);
+      var_dump($_GET);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
         $_SESSION["type"]= "none";
@@ -120,7 +115,16 @@ l<!DOCTYPE html>
           <div class="col-md-2" id="content">
             <fieldset>
               <legend>Filtrar:</legend>
-              <form method="post" action="index.php">
+              <form method="GET" action="index.php">
+                <div class="form-group">
+                  <label for="sel3">Items per page:</label>
+                  <select multiple class="form-control" name="amount" id="sel5">
+                    <option selected="selected" value='4'>4</option>";
+                    <option value='8'>8</option>";
+                    <option value='12'>12</option>";
+                    <option value='16'>16</option>";
+                  </select>
+                </div>
                 <div class="form-group">
                   <label for="sel1">Motor</label>
                   <select multiple class="form-control" name="type" id="sel1">
@@ -128,8 +132,13 @@ l<!DOCTYPE html>
                       $sql="select DISTINCT type from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
-                        echo "<option>$obj->type</option>";
+                        echo "<option";
+                        if ($_GET['type'] == $obj->type) {
+                        echo " selected='selected' >$obj->type</option>";
+                      } else {
+                        echo ">$obj->type</option>";
                       }
+                    }
                      ?>
                   </select>
                 </div>
@@ -140,8 +149,13 @@ l<!DOCTYPE html>
                       $sql="select DISTINCT traction from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
-                        echo "<option>$obj->traction</option>";
+                        echo "<option";
+                        if ($_GET['traction'] == $obj->traction) {
+                        echo " selected='selected' >$obj->traction</option>";
+                      } else {
+                        echo ">$obj->traction</option>";
                       }
+                    }
                      ?>
                   </select>
                 </div>
@@ -152,8 +166,13 @@ l<!DOCTYPE html>
                       $sql="select DISTINCT chassis from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
-                        echo "<option>$obj->chassis</option>";
+                        echo "<option";
+                        if ($_GET['chassis'] == $obj->chassis) {
+                        echo " selected='selected' >$obj->chassis</option>";
+                      } else {
+                        echo ">$obj->chassis</option>";
                       }
+                    }
                      ?>
                   </select>
                 </div>
@@ -164,40 +183,50 @@ l<!DOCTYPE html>
                       $sql="select DISTINCT transmission from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
-                        echo "<option value='$obj->transmission'>$obj->transmission</option>";
+                        echo "<option";
+                        if ($_GET['transmission'] == $obj->transmission) {
+                        echo " selected='selected' >$obj->transmission</option>";
+                      } else {
+                        echo ">$obj->transmission</option>";
                       }
+                    }
                      ?>
                   </select>
                 </div>
                 <input type="submit" class="btn btn-default btn-xs" value="Filtrar">
             </form>
             </fieldset>
-            <!--
-            <div class="dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
-              <span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">W3Schools</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-              </ul>
-            </div>-->
-
           </div>
           <div class="col-md-10" id="sidebar">
            <div class="container" id="highlights">
               <div id="products" class="row list-group">
                 <?php
-                $sql = "SELECT * FROM ITEM ORDER BY REFERENCE DESC;";
+                $counter = 1;
+                $stopper = 4;
+                $build = 'WHERE ';
+                if (key($_GET) == "amount") {$stopper = array_shift($_GET);}
+                if (empty($_GET)) {
+                    $sql = "SELECT * FROM ITEM ORDER BY REFERENCE DESC;";
+                  } else {
+                    foreach ($_GET as $key => $value) {
+                      if (isset($_GET[$key])) {
+                        $build = $build."$key = '$value' ";
+                        if (end($_GET)!==$value) {
+                            $build = $build."AND ";
+                          }
+                        }
+                      }
+                      $sql = "SELECT * FROM ITEM $build
+                       ORDER BY REFERENCE DESC;";
+                       var_dump($sql);
+                   }
                 $result = $connection->query($sql);
-                for ($i=0; $i < 4; $i++) {
-                  $obj = $result->fetch_object();
+                  while ($obj = $result->fetch_object()) {
                   echo '<div class="item  col-xs-6 col-lg-6">
                           <div class="thumbnail">
+                             <a href="item.php?id='.$obj->reference.'">
                               <img class="group list-group-image" src="'.$obj->pic.'" id="imageslist" alt="" />
+                              </a>
                               <div class="caption">
                                   <h4 class="group inner list-group-item-heading">
                                       '.$obj->name.'</h4>
@@ -215,91 +244,10 @@ l<!DOCTYPE html>
                               </div>
                           </div>
                       </div>';
+                      if ($counter == $stopper) {break;}
+                      $counter++;
                 }
                  ?>
-                  <!--<div class="item  col-xs-5 col-lg-5">
-                      <div class="thumbnail">
-                          <img class="group list-group-image" src="<?php echo "$image1" ?>" id="imageslist" alt="" />
-                          <div class="caption">
-                              <h4 class="group inner list-group-item-heading">
-                                  Product title</h4>
-                              <p class="group inner list-group-item-text">
-                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                              <div class="row">
-                                  <div class="col-xs-12 col-md-6">
-                                      <p class="lead">
-                                          $21.000</p>
-                                  </div>
-                                  <div class="col-xs-12 col-md-6">
-                                      <a class="btn btn-success" href="#">Add to cart</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="item  col-xs-5 col-lg-5">
-                      <div class="thumbnail">
-                          <img class="group list-group-image" src="<?php echo "$image2" ?>" id="imageslist" alt="" />
-                          <div class="caption">
-                              <h4 class="group inner list-group-item-heading">
-                                  Product title</h4>
-                              <p class="group inner list-group-item-text">
-                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                              <div class="row">
-                                  <div class="col-xs-12 col-md-6">
-                                      <p class="lead">
-                                          $21.000</p>
-                                  </div>
-                                  <div class="col-xs-12 col-md-6">
-                                      <a class="btn btn-success" href="#">Add to cart</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="item  col-xs-5 col-lg-5">
-                      <div class="thumbnail">
-                          <img class="group list-group-image" src="<?php echo "$image3" ?>" id="imageslist" alt="" />
-                          <div class="caption">
-                              <h4 class="group inner list-group-item-heading">
-                                  Product title</h4>
-                              <p class="group inner list-group-item-text">
-                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                              <div class="row">
-                                  <div class="col-xs-12 col-md-6">
-                                      <p class="lead">
-                                          $21.000</p>
-                                  </div>
-                                  <div class="col-xs-12 col-md-6">
-                                      <a class="btn btn-success" href="#">Add to cart</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="item  col-xs-5 col-lg-5">
-                      <div class="thumbnail">
-                          <img class="group list-group-image" src="<?php echo "$image4" ?>" id="imageslist" alt="" />
-                          <div class="caption">
-                              <h4 class="group inner list-group-item-heading">
-                                  Product title</h4>
-                              <p class="group inner list-group-item-text">
-                                  Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                                  sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                              <div class="row">
-                                  <div class="col-xs-12 col-md-6">
-                                      <p class="lead">
-                                          $21.000</p>
-                                  </div>
-                                  <div class="col-xs-12 col-md-6">
-                                      <a class="btn btn-success" href="#">Add to cart</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>-->
                   </div>
                </div>
             </div>

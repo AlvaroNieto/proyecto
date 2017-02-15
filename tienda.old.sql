@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-02-2017 a las 00:57:57
+-- Tiempo de generación: 09-02-2017 a las 04:44:23
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 7.0.10
 
@@ -36,26 +36,6 @@ CREATE TABLE `cart` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `category`
---
-
-CREATE TABLE `category` (
-  `category_id` int(9) NOT NULL,
-  `category_name` varchar(250) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `category`
---
-
-INSERT INTO `category` (`category_id`, `category_name`) VALUES
-(1, 'traccion delantera'),
-(2, 'traccion trasera'),
-(3, '4x4');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `item`
 --
 
@@ -63,7 +43,9 @@ CREATE TABLE `item` (
   `reference` int(8) NOT NULL,
   `name` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `value` int(8) NOT NULL,
-  `subcategory_name` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
+  `chassis` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
+  `traction` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `transmission` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `type` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `description` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
   `stock` int(8) NOT NULL,
@@ -74,10 +56,11 @@ CREATE TABLE `item` (
 -- Volcado de datos para la tabla `item`
 --
 
-INSERT INTO `item` (`reference`, `name`, `value`, `subcategory_name`, `type`, `description`, `stock`, `pic`) VALUES
-(9, 'Fiat Multipla', 1220, 'Monovolumen', 'Diésel', 'Descripcion', 1, 'images/multipla.jpg'),
-(10, 'BMW X6', 32000, 'Todocamino', 'Diésel', 'Descripcion', 1, 'images/original.jpg'),
-(11, 'Mercedes Clase C', 38000, 'Berlina', 'Gasolina', 'Mercedes', 1, 'images/mercedesclasec.jpg');
+INSERT INTO `item` (`reference`, `name`, `value`, `chassis`, `traction`, `transmission`, `type`, `description`, `stock`, `pic`) VALUES
+(9, 'Fiat Multipla', 1220, 'Monovolumen', 'Tracción delantera', 'Manual', 'Diésel', 'Descripcion', 1, 'images/multipla.jpg'),
+(10, 'BMW X6', 32000, 'Todocamino', '4x4', 'Manual', 'Diésel', 'Descripcion', 1, 'images/original.jpg'),
+(11, 'Mercedes Clase C', 38000, 'Berlina', 'Tracción trasera', 'Manual', 'Gasolina', 'Mercedes', 1, 'images/mercedesclasec.jpg'),
+(15, 'Tesla Modelo S', 90000, 'Berlina', 'Tracción trasera', 'Automático', 'Eléctrico', '', 1, 'images/teslamodels.jpg');
 
 -- --------------------------------------------------------
 
@@ -120,26 +103,6 @@ CREATE TABLE `quantity` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `subcategory`
---
-
-CREATE TABLE `subcategory` (
-  `subcategory_name` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `category_id` int(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `subcategory`
---
-
-INSERT INTO `subcategory` (`subcategory_name`, `category_id`) VALUES
-('Monovolumen', 1),
-('Berlina', 2),
-('Todocamino', 3);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -176,17 +139,11 @@ ALTER TABLE `cart`
   ADD KEY `users.id` (`users.id`);
 
 --
--- Indices de la tabla `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_id`);
-
---
 -- Indices de la tabla `item`
 --
 ALTER TABLE `item`
-  ADD PRIMARY KEY (`reference`,`subcategory_name`),
-  ADD KEY `subcategory_name` (`subcategory_name`);
+  ADD PRIMARY KEY (`reference`),
+  ADD KEY `subcategory_name` (`chassis`);
 
 --
 -- Indices de la tabla `manufacturer`
@@ -209,13 +166,6 @@ ALTER TABLE `quantity`
   ADD KEY `cart.oid` (`cart.oid`);
 
 --
--- Indices de la tabla `subcategory`
---
-ALTER TABLE `subcategory`
-  ADD PRIMARY KEY (`subcategory_name`),
-  ADD KEY `category.category_id` (`category_id`);
-
---
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
@@ -233,15 +183,10 @@ ALTER TABLE `users`
 ALTER TABLE `cart`
   MODIFY `oid` int(8) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `category`
---
-ALTER TABLE `category`
-  MODIFY `category_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
 -- AUTO_INCREMENT de la tabla `item`
 --
 ALTER TABLE `item`
-  MODIFY `reference` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `reference` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT de la tabla `manufacturer`
 --
@@ -263,12 +208,6 @@ ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`users.id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `item`
---
-ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`subcategory_name`) REFERENCES `subcategory` (`subcategory_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Filtros para la tabla `messages`
 --
 ALTER TABLE `messages`
@@ -281,12 +220,6 @@ ALTER TABLE `messages`
 ALTER TABLE `quantity`
   ADD CONSTRAINT `quantity_ibfk_1` FOREIGN KEY (`cart.oid`) REFERENCES `cart` (`oid`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `r.item` FOREIGN KEY (`item.reference`) REFERENCES `item` (`reference`);
-
---
--- Filtros para la tabla `subcategory`
---
-ALTER TABLE `subcategory`
-  ADD CONSTRAINT `subcategory_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

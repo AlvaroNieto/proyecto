@@ -12,9 +12,10 @@ $target_dir = "images/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+$dlong = nl2br($_POST['description_long']);
 // Check if image file is a actual image or fake image
 $sql="INSERT INTO `item` (`reference`, `name`, `value`,
-`type`, `chassis`, `transmission`, `traction`, `description`, `stock`, `pic`) VALUES
+`type`, `chassis`, `transmission`, `traction`, `description`, `description_long`, `stock`, `pic`) VALUES
 (NULL, '".$_POST['name']."',
  '".$_POST['value']."',
  '".$_POST['type']."',
@@ -22,6 +23,7 @@ $sql="INSERT INTO `item` (`reference`, `name`, `value`,
  '".$_POST['transmission']."',
  '".$_POST['traction']."',
  '".$_POST['description']."',
+ '".$dlong."',
  '".$_POST['stock']."',
  'images/".$_FILES['fileToUpload']['name']."');";
  var_dump($sql);

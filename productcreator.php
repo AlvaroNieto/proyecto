@@ -53,35 +53,26 @@
     echo "<input type='file' name='imageToUpload' id='imageToUpload'><button>Upload</button></form>";
     echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
     echo "<br><br>Create item";
-    echo "<br> <table style='border:1px solid black'>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Value</th>
-          <th>Chassis</th>
-          <th>Transmission</th>
-          <th>Traction</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>stock</th>
-          <th>Picture</th>
-          <th>Upload</th>
-      </thead>";
+    echo "<br> <table style='border:1px solid black'>";
     echo "<tr>";
-
-      echo "<td><input type='text' name='name'></td>";
-      echo "<td><input type='number' name='value'></td>";
-      echo "<td><input type='text' name='chassis'></td>";
-      echo "<td><input type='text' name='transmission'></td>";
-      echo "<td><input type='text' name='traction'></td>";
-      echo "<td><input type='text' name='type'></td>";
-      echo "<td><input type='text' name='description'></td>";
-      echo "<td><input type='number' name='stock'></td>";
-      echo "<td><input type='file' name='fileToUpload' id='fileToUpload'></td>";
-      echo "<td><input type='submit'></td>";
+      echo "<td><input placeholder='name' type='text' name='name'></td>";
+      echo "<td><input placeholder='value' type='number' name='value'></td>";
+      echo "<td><input placeholder='chassis' type='text' name='chassis'></td>";
+      echo "<td><input placeholder='transmission' type='text' name='transmission'></td>";
+      echo "<td><input placeholder='traction' type='text' name='traction'></td>";
+      echo "<td><input placeholder='type' type='text' name='type'></td>";
+    echo "</tr><tr>";
+      echo "<td></td>";
+      echo "<td colspan='1'><textarea rows='4' cols='50' placeholder='description' type='text' name='description'></textarea></td>";
+      echo "<td colspan='4'><textarea rows='8' cols='50' placeholder='description_long' type='text' name='description_long'></textarea></td>";
+    echo "</tr><tr>";
+      echo "<td colspan='1'><input placeholder='stock' type='number' name='stock'></td>";
+      echo "<td colspan='3'><input type='file' name='fileToUpload' id='fileToUpload'></td>";
+      echo "<td colspan='2'><input type='submit'></td>";
     echo "</tr>";
     echo "</table> ";
     echo "</form>";
+
     //Comienzo para la tabla empleados.
 
 
