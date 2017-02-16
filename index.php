@@ -119,10 +119,34 @@ l<!DOCTYPE html>
                 <div class="form-group">
                   <label for="sel3">Items per page:</label>
                   <select multiple class="form-control" name="amount" id="sel5">
-                    <option selected="selected" value='4'>4</option>";
-                    <option value='8'>8</option>";
-                    <option value='12'>12</option>";
-                    <option value='16'>16</option>";
+                    <option
+                    <?php
+                      if (!isset($_GET['amount']) or $_GET['amount']=='4') {
+                        echo "selected='selected'";
+                      }
+                    ?>
+                    value='4'>4</option>";
+                    <option
+                      <?php
+                        if ($_GET['amount']=='8') {
+                          echo "selected='selected'";
+                        }
+                      ?>
+                      value='8'>8</option>";
+                    <option
+                    <?php
+                      if ($_GET['amount']=='12') {
+                        echo "selected='selected'";
+                      }
+                    ?>
+                     value='12'>12</option>";
+                    <option
+                    <?php
+                      if ($_GET['amount']=='16') {
+                        echo "selected='selected'";
+                      }
+                    ?>
+                     value='16'>16</option>";
                   </select>
                 </div>
                 <div class="form-group">

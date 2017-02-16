@@ -23,7 +23,7 @@ if ($_SESSION['type'] !== "admin") {
         WHERE `item`.`reference` = '".$_POST['val']."';";
       if ($result = $connection->query($sql)) {
         echo "Data updated. Returning...";
-        header( "refresh:2; url=productcreator.php" );
+        header( "refresh:1; url=productcreator.php" );
       } else {
         echo "something went wrong";
         var_dump($sql);
@@ -45,7 +45,7 @@ if ($_SESSION['type'] !== "admin") {
           $result=$connection->query($sql);
         }
         echo "Data updated. Returning...";
-        header( "refresh:2; url=usermanagement.php" );
+        header( "refresh:1; url=usermanagement.php" );
       } else {
         echo "something went wrong";
         var_dump($sql);

@@ -13,7 +13,6 @@
       margin: 0 auto;
     }
     tr {
-      text-align: center;
       border: 0px;
     }
     thead {
@@ -32,7 +31,6 @@
       background-color: DarkGrey;
     }
     th {
-      text-align: center;
     }
     </style>
   </head>
@@ -73,16 +71,16 @@
                   <th>Save changes</th>
               </thead>";
             echo "<tr>";
-            echo "<td><input type='text' name='nick$obj->id' value='$obj->nick'></td>";
-            echo "<td><input type='email' name='email$obj->id' value='$obj->email'></td>";
-            echo "<td><input type='text' name='password$obj->id' value=''></td>";
-            echo "<td><input type='text' name='address$obj->id' value='$obj->address'></td>";
-            echo '<td><SELECT NAME="type" SIZE="1">
+            echo "<td><input type='text' class='form-control' name='nick$obj->id' value='$obj->nick'></td>";
+            echo "<td><input type='email' class='form-control' name='email$obj->id' value='$obj->email'></td>";
+            echo "<td><input type='text' class='form-control' name='password$obj->id' value=''></td>";
+            echo "<td><input type='text' class='form-control' name='address$obj->id' value='$obj->address'></td>";
+            echo '<td><SELECT class="form-control" NAME="type" SIZE="1">
                      <OPTION VALUE='.$usertype.'>'.$usertype.'</OPTION>
                      <OPTION VALUE='.$usernotype.'>'.$usernotype.'</OPTION>
                   </SELECT> </td>';
-            echo "<td><input type='text' name='name$obj->id' value='$obj->name'></td>";
-            echo "<td><input type='text' name='surname$obj->id' value='$obj->surname'></td>";
+            echo "<td><input type='text' class='form-control' name='name$obj->id' value='$obj->name'></td>";
+            echo "<td><input type='text' class='form-control' name='surname$obj->id' value='$obj->surname'></td>";
             echo "<td><button name='user' value=$obj->id>Edit</button></form>
             <form method='POST' action='delete.php'><button name='user' value=$obj->id>Remove</button></td></form>";
             echo "</tr>";

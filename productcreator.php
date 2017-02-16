@@ -7,17 +7,57 @@
     <title></title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.1.1.js">
+    </script>
+    <script>
+    $(document).ready(function(){
+    $('.filterable .btn-filter').click(function(){
+        var $panel = $(this).parents('.filterable'),
+        $filters = $panel.find('.filters input'),
+        $tbody = $panel.find('.table tbody');
+        if ($filters.prop('disabled') === true) {
+            $filters.prop('disabled', false);
+            $filters.first().focus();
+        } else {
+            $filters.val('').prop('disabled', true);
+            $tbody.find('.no-result').remove();
+            $tbody.find('tr').show();
+        }
+    });
+
+    $('.filterable .filters input').keyup(function(e){
+        /* Ignore tab key */
+        var code = e.keyCode || e.which;
+        if (code == '9') return;
+        /* Useful DOM data and selectors */
+        $('.no-result').remove();
+        var $input = $(this),
+        inputContent = $input.val().toLowerCase(),
+        $panel = $input.parents('.filterable'),
+        column = $panel.find('.filters th').index($input.parents('th')),
+        $table = $panel.find('.table'),
+        $rows = $table.find('tbody tr');
+        /* Dirtiest filter function ever ;) */
+        var $filteredRows = $rows.filter(function(){
+            var value = $(this).find('td').eq(column).find('input').val().toLowerCase();
+            return value.indexOf(inputContent) === -1;
+        });
+        /* Clean previous no-result if exist */
+
+        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+        $rows.show();
+        $filteredRows.hide();
+        /* Prepend no-result row if all rows are filtered */
+        if ($filteredRows.length == $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
+        }
+    });
+});
+    </script>
     <style>
     table {
       border-collapse: collapse;
       margin: 0 auto;
-    }
-    tr {
-      text-align: center;
-      border: 0px;
-    }
-    thead {
-      border: 1px solid black;
     }
     input[type="text"] {
       width: 80%;
@@ -26,20 +66,46 @@
       width: 60%
     }
     img {
-      width: 100px;
+      width: 105px;
+    }
+    td {
+      vertical-align:middle !important;
     }
     tbody > tr:hover {
       background-color: DarkGrey;
     }
-    th {
-      text-align: center;
+    .filterable {
+    margin-top: 15px;
+    }
+    .filterable .panel-heading .pull-right {
+        margin-top: -20px;
+    }
+    .filterable .filters input[disabled] {
+        background-color: transparent;
+        border: none;
+        cursor: auto;
+        box-shadow: none;
+        padding: 0;
+        height: auto;
+    }
+    .filterable .filters input[disabled]::-webkit-input-placeholder {
+        color: #333;
+    }
+    .filterable .filters input[disabled]::-moz-placeholder {
+        color: #333;
+    }
+    .filterable .filters input[disabled]:-ms-input-placeholder {
+        color: #333;
+    }
+    #deleter {
+      display: inline;
     }
     td {
-      height: 60px !important;
+      padding: 8px;
     }
     </style>
   </head>
-  <body>
+  <body style='min-height:900px'>
     <a class='btn btn-primary' href='index.php'>Home</a>
     <a class='btn btn-primary' href='usermanagement.php'>Users management</a><br><br>
     <?php
@@ -48,6 +114,7 @@
       header("Location: index.php");
     } else {
     $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+
     echo "Upload single image file";
     echo "<form action='imageupload.php' method='post' enctype='multipart/form-data'>";
     echo "<input type='file' name='imageToUpload' id='imageToUpload'><button>Upload</button></form>";
@@ -55,20 +122,22 @@
     echo "<br><br>Create item";
     echo "<br> <table style='border:1px solid black'>";
     echo "<tr>";
-      echo "<td><input placeholder='name' type='text' name='name'></td>";
-      echo "<td><input placeholder='value' type='number' name='value'></td>";
-      echo "<td><input placeholder='chassis' type='text' name='chassis'></td>";
-      echo "<td><input placeholder='transmission' type='text' name='transmission'></td>";
-      echo "<td><input placeholder='traction' type='text' name='traction'></td>";
-      echo "<td><input placeholder='type' type='text' name='type'></td>";
+      echo "<td><input class='form-control' placeholder='name' type='text' name='name'></td>";
+      echo "<td><input class='form-control' placeholder='value' type='number' name='value'></td>";
+      echo "<td><input class='form-control' placeholder='chassis' type='text' name='chassis'></td>";
+      echo "<td><input class='form-control' placeholder='transmission' type='text' name='transmission'></td>";
+      echo "<td><input class='form-control' placeholder='traction' type='text' name='traction'></td>";
+      echo "<td><input class='form-control' placeholder='type' type='text' name='type'></td>";
     echo "</tr><tr>";
       echo "<td></td>";
-      echo "<td colspan='1'><textarea rows='4' cols='50' placeholder='description' type='text' name='description'></textarea></td>";
-      echo "<td colspan='4'><textarea rows='8' cols='50' placeholder='description_long' type='text' name='description_long'></textarea></td>";
+      echo "<td colspan='2'><textarea class='form-control' rows='4' cols='50' placeholder='description' type='text' name='description'></textarea></td>";
+      echo "<td colspan='2'><textarea class='form-control' rows='8' cols='50' placeholder='description_long' type='text' name='description_long'></textarea></td>";
+      echo "<td></td>";
     echo "</tr><tr>";
-      echo "<td colspan='1'><input placeholder='stock' type='number' name='stock'></td>";
-      echo "<td colspan='3'><input type='file' name='fileToUpload' id='fileToUpload'></td>";
-      echo "<td colspan='2'><input type='submit'></td>";
+      echo "<td colspan='1'><input class='form-control' placeholder='stock' type='number' name='stock'></td>";
+      echo "<td colspan='3'><input class='form-control' type='file' name='fileToUpload' id='fileToUpload'></td>";
+      echo "<td></td>";
+      echo "<td colspan='1'><input class='form-control' type='submit'></td>";
     echo "</tr>";
     echo "</table> ";
     echo "</form>";
@@ -83,6 +152,77 @@
     }
 
     if ($result = $connection->query("SELECT * FROM item ORDER BY REFERENCE DESC")) {
+      echo '
+        <div class="panel panel-primary filterable">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Products</h3>
+                  <div class="pull-right">
+                      <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                  </div>
+              </div>
+              <table class="table">
+                  <thead>
+                      <tr class="filters">
+                          <th><input type="text" class="form-control" placeholder="name" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="value" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="chassis" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="traction" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="transmission" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="type" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="description" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="picture" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="stock" disabled></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  <form action="edit.php" method="post">';
+                  while($obj = $result->fetch_object()) {
+                    echo '<form action="edit.php" method="post">';
+                    echo "<tr>
+                          <td><input type='text' class='form-control' name='name$obj->reference' value='$obj->name'>
+                          </td>
+                          <td><input type='text' class='form-control' name='value$obj->reference' value='$obj->value'>
+                          </td>
+                          <td><input type='text' class='form-control' name='chassis$obj->reference' value='$obj->chassis'></td>
+                          <td><input type='text' class='form-control' name='traction$obj->reference' value='$obj->traction'></td>
+                          <td><input type='text' class='form-control' name='transmission$obj->reference' value='$obj->transmission'></td>
+                          <td><input type='text' class='form-control' name='type$obj->reference' value='$obj->type'></td>
+                          <td><input type='text' class='form-control' name='description$obj->reference' value='$obj->description'></td>
+                          <td><img src=".$obj->pic."></img><input type='text' class='form-control' name='pic' value='$obj->pic'></td>
+                          <td><input type='text' class='form-control' name='stock$obj->reference' value='$obj->stock' >
+                          <button name='val' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->reference><i class='glyphicon glyphicon-edit'></i></button>
+                          </form><form method='POST' id='deleter' action='delete.php'><button name='val' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->reference>
+                          <i class='glyphicon glyphicon-trash'></i></button></td></form></td>
+
+                      </tr>";
+                  }
+
+                  echo '
+                  </tbody>
+              </table>
+          </div>';
+          /*
+          <tr>description
+              <td><input type="text" class="form-control" value="1"></td>
+              <td>test</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+          </tr>
+          <tr>
+              <td><input type="text" class="form-control" value="2"></td>
+              <td>tester</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+          </tr>
+          <tr>
+              <td><input type="text" class="form-control" value="3"></td>
+              <td>tast</td>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+          </tr>
         while($obj = $result->fetch_object()) {
             echo "<form action='edit.php' method='post'>";
             echo "<br> <table style='border:1px solid black'>
@@ -117,14 +257,14 @@
 
           $result->close();
           unset($obj);
-
+          */
 
 
 
         }
     }
-    ?>
 
+    ?>
     <script type="text/javascript" src="js/bootstrap.min.js">
     </script>
   </body>
