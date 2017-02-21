@@ -78,10 +78,7 @@
       <div class="container">
         <?php
         if ($_SESSION["type"] == "admin") {
-          echo "<a class='btn btn-primary btn-xs'
-          href='productcreator.php'>Product management</a>";
-          echo "<a class='btn btn-primary btn-xs'
-          href='usermanagement.php'>Users management</a>";
+          include_once("controlpanel.php");
         }
          ?>
          <div class="col-md-12" id="container">

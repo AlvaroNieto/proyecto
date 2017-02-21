@@ -51,5 +51,20 @@ if ($_SESSION['type'] !== "admin") {
         var_dump($sql);
       }
     }
+    if(isset($_POST['description'])) {
+      $id=$_POST['editor'];
+        $sql="UPDATE `item` SET `name` = '".$_POST['name']."',
+         `description` = '".$_POST['description']."',
+         `description_long` = '".$_POST['description_long']."'
+          WHERE `item`.`reference` = '".$_POST['editor']."';";
+        if ($result = $connection->query($sql)) {
+          echo "Data updated. Returning...";
+          $namer = $_POST['name'];
+          header( "refresh:1; url=description_manager.php?name=$namer" );
+        } else {
+          echo "something went wrong";
+          var_dump($sql);
+        }
+    }
   }
  ?>

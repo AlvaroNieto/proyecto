@@ -19,6 +19,11 @@
       }
       ?>
      <div class="container">
+       <?php
+       if ($_SESSION["type"] == "admin") {
+         include_once("controlpanel.php");
+       }
+        ?>
         <div class="col-md-12" id="container">
           <div class="col-md-12" id="header">
             <nav class="navbar navbar-default" id="navbar">

@@ -52,6 +52,7 @@
             $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
         }
     });
+
 });
     </script>
     <style>
@@ -107,6 +108,7 @@
   </head>
   <body style='min-height:900px'>
     <a class='btn btn-primary' href='index.php'>Home</a>
+    <a class='btn btn-primary' href='description_manager.php'>Description management</a>
     <a class='btn btn-primary' href='usermanagement.php'>Users management</a><br><br>
     <?php
     session_start();
@@ -169,7 +171,7 @@
                           <th><input type="text" class="form-control" placeholder="traction" disabled></th>
                           <th><input type="text" class="form-control" placeholder="transmission" disabled></th>
                           <th><input type="text" class="form-control" placeholder="type" disabled></th>
-                          <th><input type="text" class="form-control" placeholder="description" disabled></th>
+                          <th>Description</th>
                           <th><input type="text" class="form-control" placeholder="picture" disabled></th>
                           <th><input type="text" class="form-control" placeholder="stock" disabled></th>
                       </tr>
@@ -187,7 +189,7 @@
                           <td><input type='text' class='form-control' name='traction$obj->reference' value='$obj->traction'></td>
                           <td><input type='text' class='form-control' name='transmission$obj->reference' value='$obj->transmission'></td>
                           <td><input type='text' class='form-control' name='type$obj->reference' value='$obj->type'></td>
-                          <td><input type='text' class='form-control' name='description$obj->reference' value='$obj->description'></td>
+                          <td><a href='description_manager.php?name=$obj->name' style='text-align: center' class='form-control'><i class='glyphicon glyphicon-edit'></i></a></td>
                           <td><img src=".$obj->pic."></img><input type='text' class='form-control' name='pic' value='$obj->pic'></td>
                           <td><input type='text' class='form-control' name='stock$obj->reference' value='$obj->stock' >
                           <button name='val' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->reference><i class='glyphicon glyphicon-edit'></i></button>
