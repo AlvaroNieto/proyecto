@@ -3,13 +3,7 @@ if(isset($_POST["user"])){
   $username = $_POST['user'];
   $password = md5($_POST['password']);
 }
-$connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-
-//TESTING IF THE CONNECTION WAS RIGHT
-if ($connection->connect_errno) {
-    printf("Connection failed: %s\n", $connection->connect_error);
-    exit();
-}
+include_once("connection.php");
 if ($username != NULL && $password != NULL) {
   $sql="select * from users where
   nick='".$_POST["user"]."' and password=md5('".$_POST["password"]."');";

@@ -5,11 +5,7 @@ $error = false;
 if ($_SESSION['type'] !== "admin") {
   header("Location: index.php");
 } else {
-  $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-  if ($connection->connect_errno) {
-      printf("Connection failed: %s\n", $connection->connect_error);
-      exit();
-  }
+  include_once("connection.php");
   if (isset($_POST['val'])) {
     $id=$_POST['val'];
       $sql="UPDATE `item` SET `name` = '".$_POST['name'."$id"]."', `value` = '".$_POST['value'."$id"]."',

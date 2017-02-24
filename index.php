@@ -1,28 +1,18 @@
-l<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <script src="https://code.jquery.com/jquery-3.1.1.js">
-    </script>
-    <script>
-    <?php
-    $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-    if ($connection->connect_errno) {
-        printf("Connection failed: %s\n", $connection->connect_error);
-        exit();
-    }
-
-    ?>
-    </script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js">
-    <link rel="stylesheet" type="text/css" href="index.css?v=0xkl)ip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <body>
       <?php
+      include_once("connection.php");
       session_start();
       var_dump($_SESSION);
       var_dump($_POST);
@@ -33,8 +23,6 @@ l<!DOCTYPE html>
       }
 
       ?>
-
-
      <div class="container">
        <?php
        if ($_SESSION["type"] == "admin") {

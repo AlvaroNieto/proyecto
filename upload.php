@@ -3,11 +3,7 @@ session_start();
 if ($_SESSION['type'] !== "admin") {
   header("Location: index.php");
 } else {
-$connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-if ($connection->connect_errno) {
-    printf("Connection failed: %s\n", $connection->connect_error);
-    exit();
-}
+include_once("connection.php");
 $target_dir = "images/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;

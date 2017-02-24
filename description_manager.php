@@ -117,11 +117,7 @@
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
-    $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-    if ($connection->connect_errno) {
-        printf("Connection failed: %s\n", $connection->connect_error);
-        exit();
-    }
+    include_once("connection.php");
     echo "Para añadir 1 salto de linea escribir <input value='<br />' style='width:43px'disabled/> Se puede poner varias veces para más espacio.";
     if ($result = $connection->query("SELECT * FROM item ORDER BY REFERENCE DESC")) {
       echo '

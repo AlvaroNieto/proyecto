@@ -1,10 +1,6 @@
 <?php
 if (isset($_POST['username'])) {
-  $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-  if ($connection->connect_errno) {
-      printf("Connection failed: %s\n", $connection->connect_error);
-      exit();
-  }
+  include_once("connection.php");
   $sql="select * from users where
   nick='".$_POST["username"]."';";
 

@@ -114,12 +114,7 @@
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
-    $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-    if ($connection->connect_errno) {
-        printf("Connection failed: %s\n", $connection->connect_error);
-        exit();
-    }
-
+    include_once("connection.php");
     if ($result = $connection->query("SELECT * FROM users")) {
       echo '
         <div class="panel panel-primary filterable">

@@ -13,11 +13,7 @@
     </head>
     <body>
       <?php
-      $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-      if ($connection->connect_errno) {
-          printf("Connection failed: %s\n", $connection->connect_error);
-          exit();
-      }
+      include_once("connection.php");
       session_start();
       ?>
      <div class="container">

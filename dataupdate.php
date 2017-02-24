@@ -2,11 +2,7 @@
 session_start();
 $error = false;
 if (isset($_SESSION["type"])) {
-  $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-  if ($connection->connect_errno) {
-      printf("Connection failed: %s\n", $connection->connect_error);
-      exit();
-  }
+  include_once("connection.php");
   if ($_SESSION["user"] != NULL && $_POST['passwordold'] != NULL) {
     $sql="select * from users where
     nick='".$_SESSION["user"]."' and password=md5('".$_POST["passwordold"]."');";

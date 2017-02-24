@@ -115,7 +115,7 @@
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
-    $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+    include_once("connection.php");
 
     echo "Upload single image file";
     echo "<form action='imageupload.php' method='post' enctype='multipart/form-data'>";
