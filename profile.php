@@ -42,7 +42,8 @@
     </script>
      <link href="css/bootstrap.css" rel="stylesheet">
      <link href="js/bootstrap.js" rel="stylesheet">
-     <link rel="stylesheet" type="text/css" href="index.css?v=xkl)Xip/t|=7s3x">
+     <link rel="stylesheet" type="text/css" href="index.css">
+     <link rel="stylesheet" type="text/css" href="cart.css">
      </head>
      <body>
        <?php
@@ -50,9 +51,6 @@
        if ($_SESSION['user'] == "unloged") {
          header("Location: index.php");
        } else {
-       $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-
-       //TESTING IF THE CONNECTION WAS RIGHT
        include_once("connection.php");
        $sql="select * from users where
        nick='".$_SESSION["user"]."';";
@@ -97,8 +95,8 @@
                  <!-- Collect the nav links, forms, and other content for toggling -->
                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                    <ul class="nav navbar-nav">
-                     <li><a href="#">Cart</a></li>
-                     <li><a href="#">Contact</a></li>
+                     <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
+                     <li><a href="contact.php">Contact</a></li>
                    </ul>
                    <form class="navbar-form navbar-left">
                      <div class="form-group">
@@ -177,36 +175,33 @@
                   </fieldset>
                </form>
              </div>
-             <div class="col-md-6" id="oldorders">
-               <form id="registerform" method="POST" >
-                 <fieldset>
-                   <legend>Orders:</legend>
+             <div class="col-md-6" id="messages">
+                   <legend>Messages:</legend>
                      <div class="form-group">
-                       <br />
-                       <label for="email">Placeholders</label>
-                       <input type="email" name="email" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
-                       <br />
-                       <label for="passowrd">Password</label>
-                       <input required type="password" name="password" class="form-control" placeholder="Password">
-                       <br />
-                       <label for="password2">Confirm password</label>
-                       <input required type="password" name="password2" class="form-control" placeholder="Password2">
-                       <br />
-                       <label for="name1">Name</label>
-                       <input required type="text" name="name" class="form-control"  placeholder="Manolo">
-                       <br />
-                       <label for="surname">Surnames</label>
-                       <input required type="text" name="surname" class="form-control" placeholder="El del Bombo">
-                       <br />
-                       <label for="address">Address</label>
-                       <input required type="text" name="address" class="form-control" placeholder="Sevilla C/ Piruleta 123">
-                     </div><br/>
-                       <button type="submit" value="register" class="btn btn-primary">Save changes</button>
-                  </fieldset>
-               </form>
+                       <?php
+                       $result = $connection->query("SELECT * FROM users where `nick` = '".$_SESSION['user']."'");
+                       $obj = $result->fetch_object();
+                       $id = $obj->id;
+                       $sql = "SELECT * FROM messages where `users.id` = '$id'";
+                       $result = $connection->query("SELECT * FROM messages where `users.id` = '$id'");
+                       while ($obj = $result->fetch_object()) {
+                         echo "";
+                         echo '<div class="list-group-item" style="min-height:100px; margin-top:20px;">
+                                   <div class="col-md-8"  id="messagediv" style="overflow-y:scroll; height: 100%;">
+                                       <p style="word-wrap: break-word; white-space: pre-line;">'.$obj->message.'</p>
+                                   </div>
+                                   <div class="col-md-4">
+                                   <a style="margin-top:30px;" href="delete.php?message='.$obj->mid.'"class="btn btn-primary btn-lg btn-block btn-xs">
+                                   Remove
+                                   </a>
+                                   </div>
+                         </div>';
+                       }
+                        ?>
+                      </div>
              </div>
-             <div class="cl-md-6" id="orders">
-
+             <div class="cl-md-12" id="orders">
+               asd
              </div>
            </div>
            <!-- footer -->

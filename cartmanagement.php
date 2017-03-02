@@ -52,10 +52,7 @@
             $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
         }
     });
-      console.log($('.filterable .filters input').val());
-      $('.filterable .filters input').trigger('keyup');
-  });
-
+});
     </script>
     <style>
     table {
@@ -108,7 +105,7 @@
     }
     </style>
   </head>
-  <body style='min-height:900px'>
+  <body>
     <?php
     include_once("controlpanel.php");
     session_start();
@@ -116,12 +113,11 @@
       header("Location: index.php");
     } else {
     include_once("connection.php");
-    echo "Para añadir 1 salto de linea escribir <input value='<br />' style='width:43px'disabled/> Se puede poner varias veces para más espacio.";
-    if ($result = $connection->query("SELECT * FROM item ORDER BY REFERENCE DESC")) {
+    if ($result = $connection->query("SELECT * FROM cart ORDER BY oid DESC")) {
       echo '
         <div class="panel panel-primary filterable">
               <div class="panel-heading">
-                  <h3 class="panel-title">Products</h3>
+                  <h3 class="panel-title">Carts</h3>
                   <div class="pull-right">
                       <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
                   </div>
@@ -129,41 +125,51 @@
               <table class="table">
                   <thead>
                       <tr class="filters">
-                          <th><input type="text" class="form-control" placeholder="name"';
-                          if (isset($_GET['name'])) {
-                            echo "value='".$_GET['name']."'";
-                            $disabled = '';
-                          } else {
-                            $diabled = disabled;
-                            echo "$disabled";
-                          }
-                          echo '></th>
-                          <th><input type="text" class="form-control" placeholder="description" '.$disabled.'></th>
-                          <th><input type="text" class="form-control" placeholder="description_long" '.$disabled.'</th>
+                          <th><input type="text" class="form-control" placeholder="Bought by" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="Value" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="Date" disabled></th>
+                          <th><input type="text" class="form-control" placeholder="Products" disabled></th>
                       </tr>
                   </thead>
-                  <tbody>';
-                  while($obj = $result->fetch_object()) {
-                    echo '<form action="edit.php" method="POST">';
-                    echo "<tr>
-                          <td><input type='text' class='form-control' name='name' value='$obj->name'>
-                          </td>
-                          <td><textarea class='form-control' type='text' rows='6' cols='50' name='description'>$obj->description</textarea></td>
-                          <td><textarea class='form-control' type='text' rows='10' cols='50' name='description_long'>$obj->description_long</textarea></td>
-                          <td><button name='editor' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->reference><i class='glyphicon glyphicon-edit'></i></button>
-                          </form></td>
+                  <tbody>
+                  <form action="edit.php" method="post">';
+        while($obj = $result->fetch_object()) {
+          $id=$obj->{'users.id'};
+          $sql2 = "SELECT * FROM USERS WHERE ID = '$id'";
+          $result2 = $connection->query($sql2);
+          $obj2 = $result2->fetch_object();
+          $sql3 = "SELECT * FROM QUANTITY WHERE `cart.oid`='$obj->oid'";
+          $result3 = $connection->query($sql3);
+          $products = '';
+          while ($obj3 = $result3->fetch_object()) {
+            $ref=$obj3->{"item.reference"};
+            $sql4 = "SELECT * FROM ITEM WHERE `REFERENCE` = '$ref'";
+            $result4 = $connection->query($sql4);
+            $obj4 = $result4->fetch_object();
+            $products = "$products ".$obj3->quantity."->".$obj4->name;
+          }
 
-                      </tr>";
-                  }
+                        echo '<form action="edit.php" method="post">';
+                        echo "<tr>
+                              <td><input type='text' class='form-control' name='nick$obj->oid' value='$obj2->nick' disabled>
+                              </td>
+                              <td><input type='text' class='form-control' name='value$obj->oid' value='$obj->value' disabled>
+                              </td>
+                              <td><input type='text' class='form-control' name='date$obj->oid' value='$obj->date' disabled></td>
+                              <td><textarea class='form-control' type='text' rows='3' cols='20' name='products' disabled>$products</textarea>
+                              </form><form method='POST' id='deleter' action='delete.php'><button name='cart' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->oid>
+                              <i class='glyphicon glyphicon-trash'></i></button></td></form></td>
+                          </tr>";
+                      }
 
-                  echo '
-                  </tbody>
-              </table>
-          </div>';
+                      echo '
+                      </tbody>
+                  </table>
+              </div>';
         }
     }
-
     ?>
+
     <script type="text/javascript" src="js/bootstrap.min.js">
     </script>
   </body>

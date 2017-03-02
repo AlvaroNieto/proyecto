@@ -146,8 +146,14 @@
                   while($obj = $result->fetch_object()) {
                     echo '<form action="edit.php" method="POST">';
                     echo "<tr>
-                          <td><input type='text' class='form-control' name='name' value='$obj->name'>
-                          </td>
+                          <td>
+                          <SELECT class='form-control' NAME='type' SIZE='5' multiple>";
+                          $sql="SELECT nick FROM users";
+                          $result = $connection->query($sql);
+                          while ($obj = $result->fetch_object()) {
+                                   echo "<OPTION name='sentto' VALUE='$obj->nick'>$obj->nick</OPTION>";
+                                 }
+                          echo "</SELECT></td>
                           <td><textarea class='form-control' type='text' rows='6' cols='50' name='description'>$obj->description</textarea></td>
                           <td><textarea class='form-control' type='text' rows='10' cols='50' name='description_long'>$obj->description_long</textarea></td>
                           <td><button name='editor' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->reference><i class='glyphicon glyphicon-edit'></i></button>

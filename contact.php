@@ -44,8 +44,8 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                    <li><a href="#">Cart</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
+                    <li><a href="contact.php">Contact</a></li>
                   </ul>
                   <form class="navbar-form navbar-left">
                     <div class="form-group">

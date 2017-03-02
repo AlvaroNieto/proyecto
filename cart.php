@@ -7,14 +7,40 @@
     <title>Proyecto PHP</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js">
     </script>
+    <script>
+   </script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css?v=xkl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="cart.css">
     </head>
     <body>
       <?php
-      include_once("connection.php");
       session_start();
+      if ($_SESSION['user'] == "unloged") {
+        header("Location: index.php");
+      } else {
+      $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
+
+      //TESTING IF THE CONNECTION WAS RIGHT
+      include_once("connection.php");
+      $sql="select * from users where
+      nick='".$_SESSION["user"]."';";
+
+      if ($result = $connection->query($sql)) {
+        if ($result->num_rows==0) {
+          echo "Error";
+          $_SESSION="unloged";
+          header("Location: index.php");
+        } else {
+            $obj = $result->fetch_object();
+          }
+
+        } else {
+          echo "Wrong Query";
+          var_dump($sql);
+      }
+      }
       ?>
      <div class="container">
        <?php
@@ -41,8 +67,8 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                    <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="#">Cart</a></li>
+                    <li><a href="#">Contact</a></li>
                   </ul>
                   <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -88,25 +114,63 @@
             </nav>
 
           </div>
-          <div class="col-md-12" id="content">
+          <div class="col-md-12" id="content" style="min-height: 300px;">
+            <div class="list-group">
+              <form method="GET" action="buy.php">
             <?php
-            $sql = "SELECT * FROM ITEM WHERE REFERENCE = '".$_GET['id']."';";
-            $result = $connection->query($sql);
-            $obj = $result->fetch_object();
-            echo "<img src='".$obj->pic."'>";
-            echo "<p style='margin-top: 20px'>$obj->description</p>";
-            echo "<p style='margin-top: 20px'>$obj->description_long</p>";
-            echo "<br>";
-            echo '<ul class="list-group">
-              <li class="list-group-item list-group-item-info">Motor '.$obj->type.'</li>
-              <li class="list-group-item list-group-item-info">Transmisión '.$obj->transmission.'</li>
-              <li class="list-group-item list-group-item-info">Tipo '.$obj->chassis.'</li>
-              <li class="list-group-item list-group-item-info">Tracción '.$obj->traction.'</li>
-            </ul>';
-            echo '<a class="btn btn-success" name="buy" href="cartadd.php?id='.$obj->reference.'">Add to cart</a>';
+            foreach ($_SESSION['cartadd'] as $key => $value) {
+              $sql = "SELECT * FROM item WHERE reference = '$value'";
+              $result = $connection->query($sql);
+              while ($obj = $result->fetch_object()) {
+                echo '<div class="list-group-item">
+                        <a href="item.php?id='.$obj->reference.'" class="list-group-item col-md-9">
+                          <div class="media col-md-4">
+                              <figure class="pull-left">
+                                  <img class="media-object img-rounded img-responsive"  src="'.$obj->pic.'" >
+                              </figure>
+                          </div>
+                          <div class="col-md-6">
+                              <h4 class="list-group-item-heading"> '.$obj->name.' </h4>
+                              <p class="list-group-item-text"> '.$obj->description.'
+                              </p>
+                          </div>
+                        </a>
+                        <div class="col-md-3 text-center">
+
+                          <label for="quantity"> Quantity
+                            <input style="margin-top:10px;" type="number" class="form-control" name="'.$obj->reference.'"  value="1" required>
+                          </label>
+
+                            <a style="margin-top:30px;" href="cartadd.php?remove='.$obj->reference.'"class="btn btn-primary btn-lg btn-block">
+                            Remove
+                            </a>
+                        </div>
+                </div>';
+                }
+            }
+
+
              ?>
+            <div style="margin: 0 auto; width: 200px; margin-top: 40px">
+                 <input type="submit" class="btn btn-success center-block" value="Comprar"></a>
+             </div>
+             </form>
+              </div>
           </div>
-          <!-- footer -->
+          <!-- footer
+          <div class="col-md-3 text-center">
+              <h2> 12424 <small> votes </small></h2>
+              <button type="button" class="btn btn-primary btn-lg btn-block"> Delete </button>
+              <div class="stars">
+                  <span class="glyphicon glyphicon-star"></span>
+                  <span class="glyphicon glyphicon-star"></span>
+                  <span class="glyphicon glyphicon-star"></span>
+                  <span class="glyphicon glyphicon-star"></span>
+                  <span class="glyphicon glyphicon-star-empty"></span>
+              </div>
+              <p> Average 3.9 <small> / </small> 5 </p>
+          </div>
+        -->
           <div class="col-md-2" id="footerL">
             <address>
               <strong>2AsirTriana</strong><br>

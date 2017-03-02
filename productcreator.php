@@ -107,10 +107,8 @@
     </style>
   </head>
   <body style='min-height:900px'>
-    <a class='btn btn-primary' href='index.php'>Home</a>
-    <a class='btn btn-primary' href='description_manager.php'>Description management</a>
-    <a class='btn btn-primary' href='usermanagement.php'>Users management</a><br><br>
     <?php
+    include_once("controlpanel.php");
     session_start();
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");

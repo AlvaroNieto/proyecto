@@ -12,6 +12,7 @@
     </head>
     <body>
       <?php
+
       include_once("connection.php");
       session_start();
       var_dump($_SESSION);
@@ -50,7 +51,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                    <li><a href="#">Cart</a></li>
+                    <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
                     <li><a href="contact.php">Contact</a></li>
                   </ul>
                   <form class="navbar-form navbar-left">
@@ -247,7 +248,7 @@
                                               '.$obj->value.'€</p>
                                       </div>
                                       <div class="col-xs-12 col-md-6">
-                                          <a class="btn btn-success" href="#">Add to cart</a>
+                                          <a class="btn btn-success" name="buy" href="cartadd.php?id='.$obj->reference.'">Add to cart</a>
                                       </div>
                                   </div>
                               </div>
@@ -256,6 +257,7 @@
                       if ($counter == $stopper) {break;}
                       $counter++;
                 }
+
                  ?>
                   </div>
                </div>

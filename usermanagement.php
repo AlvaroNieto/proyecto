@@ -106,11 +106,9 @@
     </style>
   </head>
   <body>
-    <a class='btn btn-primary' href='index.php'>Home</a>
-    <a class='btn btn-primary' href='productcreator.php'>Product management</a>
-    <a class='btn btn-primary' href='usermanagement.php'>Users management</a><br><br>
     <?php
     session_start();
+    include_once("controlpanel.php");
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
