@@ -62,5 +62,22 @@ if ($_SESSION['type'] !== "admin") {
           var_dump($sql);
         }
     }
+    if(isset($_POST['sender'])) {
+      $id=$_POST['editor'];
+        $sql1 = "SELECT * FROM `USERS` where nick = '".$_POST['nick']."'";
+        $result = $connection->query($sql1);
+        $obj = $result->fetch_object();
+        $id = $obj->id;
+        $sql="INSERT INTO `messages` (`mid`, `users.id`, `message`) VALUES (NULL, '$id','".$_POST['content']."')";
+        if ($result = $connection->query($sql)) {
+          echo "Message sent. Returning...";
+          header( "refresh:1; url=sendmessages.php" );
+        } else {
+          echo "Something went wrong <br/> Check if the user exists <br/>";
+          echo "<a class='btn btn-primary btn-xs'
+          href='usermanagement.php' style='margin-right: 5px'>Users management</a><br/>";
+          var_dump($sql);
+        }
+    }
   }
  ?>

@@ -161,3 +161,8 @@ font-style: italic;
   min-height: 150px;
   text-align: justify;
 }
+
+#messages2 {
+  overflow-y: scroll;
+  height: 600px;
+}

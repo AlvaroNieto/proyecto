@@ -54,9 +54,9 @@
                     <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
                     <li><a href="contact.php">Contact</a></li>
                   </ul>
-                  <form class="navbar-form navbar-left">
+                  <form class="navbar-form navbar-left" method="GET" action="index.php">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Search">
+                      <input type="text" class="form-control" placeholder="Search" name="searchname" required>
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                   </form>
@@ -214,6 +214,9 @@
                 $counter = 1;
                 $stopper = 4;
                 $build = 'WHERE ';
+                if (isset($_GET['searchname'])) {
+                  $sql = "SELECT * FROM ITEM WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC;";
+                } else {
                 if (key($_GET) == "amount") {$stopper = array_shift($_GET);}
                 if (empty($_GET)) {
                     $sql = "SELECT * FROM ITEM ORDER BY REFERENCE DESC;";
@@ -230,7 +233,11 @@
                        ORDER BY REFERENCE DESC;";
                        var_dump($sql);
                    }
-                $result = $connection->query($sql);
+                 }
+                  $result = $connection->query($sql);
+                  if (mysqli_num_rows($result) == 0 && isset($_GET['searchname'])) {
+                    echo "No results found.";
+                   }
                   while ($obj = $result->fetch_object()) {
                   echo '<div class="item  col-xs-6 col-lg-6">
                           <div class="thumbnail">

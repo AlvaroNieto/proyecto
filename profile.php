@@ -44,6 +44,7 @@
      <link href="js/bootstrap.js" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="index.css">
      <link rel="stylesheet" type="text/css" href="cart.css">
+     <link rel="stylesheet" type="text/css" href="profile.css">
      </head>
      <body>
        <?php
@@ -143,6 +144,69 @@
 
            </div>
            <div class="col-md-12" id="content">
+             <div class="col-md-12" id="orders">
+              <legend>Orders:</legend>
+               <div class="list-group-item" style="min-height:100px; margin-top:20px;margin-bottom:20px; overflow:auto; ">
+                    <div class="col-md-12"  style="height: 100%;">
+                      <div class="col-md-4">
+                        <div class="panel price panel-red">
+                           <div class="panel-heading  text-center">
+                           <h3>123000€ / 12-12-2017</h3>
+                           </div>
+                           <div class="panel-body text-center">
+                             <p class="lead" style="font-size:30px"><strong>Cart ID=32</strong></p>
+                           </div>
+                           <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
+                             <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+                           </ul>
+                           <div class="panel-footer">
+                             <a class="btn btn-lg btn-block btn-danger" href="#">Delete</a>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="col-md-4">
+                         <div class="panel price panel-red">
+                            <div class="panel-heading  text-center">
+                            <h3>123000€ / 12-12-2017</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                              <p class="lead" style="font-size:30px"><strong>ID=32</strong></p>
+                            </div>
+                            <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
+                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
+                              <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+                              <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+                            </ul>
+                            <div class="panel-footer">
+                              <a class="btn btn-lg btn-block btn-danger" href="#">BUY NOW!</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="panel price panel-red">
+                             <div class="panel-heading  text-center">
+                             <h3>123000€ / 12-12-2017</h3>
+                             </div>
+                             <div class="panel-body text-center">
+                               <p class="lead" style="font-size:30px"><strong>Cart ID=32</strong></p>
+                             </div>
+                             <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
+                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
+                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
+                               <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+                               <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
+                             </ul>
+                             <div class="panel-footer">
+                               <a class="btn btn-lg btn-block btn-danger" href="#">Delete</a>
+                             </div>
+                           </div>
+                         </div>
+                    </div>
+             </div>
+           </div>
              <div class="col-md-6" id="personalinfo">
                <form id="registerform" method="POST" onSubmit="return validationPass()" action="dataupdate.php">
                  <fieldset>
@@ -177,33 +241,32 @@
              </div>
              <div class="col-md-6" id="messages">
                    <legend>Messages:</legend>
-                     <div class="form-group">
+                     <div class="form-group" id="messages2">
                        <?php
                        $result = $connection->query("SELECT * FROM users where `nick` = '".$_SESSION['user']."'");
                        $obj = $result->fetch_object();
                        $id = $obj->id;
-                       $sql = "SELECT * FROM messages where `users.id` = '$id'";
-                       $result = $connection->query("SELECT * FROM messages where `users.id` = '$id'");
+                       $sql = "SELECT * FROM messages where `users.id` = '$id' or '14'";
+                       $result = $connection->query("SELECT * FROM messages where `users.id` = '$id' or `users.id` = '14'");
                        while ($obj = $result->fetch_object()) {
                          echo "";
                          echo '<div class="list-group-item" style="min-height:100px; margin-top:20px;">
                                    <div class="col-md-8"  id="messagediv" style="overflow-y:scroll; height: 100%;">
                                        <p style="word-wrap: break-word; white-space: pre-line;">'.$obj->message.'</p>
-                                   </div>
-                                   <div class="col-md-4">
-                                   <a style="margin-top:30px;" href="delete.php?message='.$obj->mid.'"class="btn btn-primary btn-lg btn-block btn-xs">
-                                   Remove
-                                   </a>
-                                   </div>
-                         </div>';
+                                   </div>';
+                                   if ($obj->{"users.id"}!=='14' or $_SESSION['type']=='admin') {
+                                   echo '<div class="col-md-4">
+                                     <a style="margin-top:25px; margin-left: 20px;" href="delete.php?message='.$obj->mid.'"class="btn btn-primary ">
+                                     Remove
+                                     </a>
+                                     </div>';
+                                 }
+                         echo "</div>";
                        }
                         ?>
                       </div>
              </div>
-             <div class="cl-md-12" id="orders">
-               asd
-             </div>
-           </div>
+
            <!-- footer -->
            <div class="col-md-2" id="footerL">
              <address>
