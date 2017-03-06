@@ -52,17 +52,16 @@
        if ($_SESSION['user'] == "unloged") {
          header("Location: index.php");
        } else {
-       include_once("connection.php");
+       include_once("php/connection.php");
        $sql="select * from users where
        nick='".$_SESSION["user"]."';";
-
        if ($result = $connection->query($sql)) {
          if ($result->num_rows==0) {
            echo "Error";
            $_SESSION="unloged";
            header("Location: index.php");
          } else {
-             $obj = $result->fetch_object();
+             $objuser = $result->fetch_object();
            }
 
          } else {
@@ -117,7 +116,7 @@
                          <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'
                          aria-haspopup='true' aria-expanded='false'>Log in<span class='caret'></span></a>
                          <ul class='dropdown-menu'>
-                           <form class='navbar-form navbar-left' id='loger' method='POST' action='login.php'>
+                           <form class='navbar-form navbar-left' id='loger' method='POST' action='php/login.php'>
                              <div class='form-group'>
                                  <!--user-->
                                <input type='text' class='form-control' name='user' placeholder='user' required><br><br>
@@ -147,74 +146,54 @@
              <div class="col-md-12" id="orders">
               <legend>Orders:</legend>
                <div class="list-group-item" style="min-height:100px; margin-top:20px;margin-bottom:20px; overflow:auto; ">
-                    <div class="col-md-12"  style="height: 100%;">
-                      <div class="col-md-4">
-                        <div class="panel price panel-red">
-                           <div class="panel-heading  text-center">
-                           <h3>123000€ / 12-12-2017</h3>
-                           </div>
-                           <div class="panel-body text-center">
-                             <p class="lead" style="font-size:30px"><strong>Cart ID=32</strong></p>
-                           </div>
-                           <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
-                             <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
-                           </ul>
-                           <div class="panel-footer">
-                             <a class="btn btn-lg btn-block btn-danger" href="#">Delete</a>
-                           </div>
-                         </div>
-                       </div>
-                       <div class="col-md-4">
-                         <div class="panel price panel-red">
-                            <div class="panel-heading  text-center">
-                            <h3>123000€ / 12-12-2017</h3>
-                            </div>
-                            <div class="panel-body text-center">
-                              <p class="lead" style="font-size:30px"><strong>ID=32</strong></p>
-                            </div>
-                            <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
-                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
-                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
-                              <li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
-                              <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
-                              <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
-                            </ul>
-                            <div class="panel-footer">
-                              <a class="btn btn-lg btn-block btn-danger" href="#">BUY NOW!</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="panel price panel-red">
-                             <div class="panel-heading  text-center">
-                             <h3>123000€ / 12-12-2017</h3>
+                    <div class="col-md-12" style="height: 375px; overflow-y: scroll;">
+                      <?php
+                      $sql = "SELECT * FROM USERS WHERE `nick` = '".$_SESSION['user']."'";
+                      $result = $connection->query($sql);
+                      $obj = $result->fetch_object();
+                      $userid = $obj->id;
+                      $sql = "SELECT * FROM CART WHERE `users.id` = '$userid' ORDER BY `oid` DESC";
+                      $result = $connection->query($sql);
+                      while ($obj = $result->fetch_object()) {
+                        echo "<div class='col-md-4'>
+                          <div class='panel price panel-red'>
+                             <div class='panel-heading  text-center'>
+                             <h3> $obj->value € / $obj->date </h3>
                              </div>
-                             <div class="panel-body text-center">
-                               <p class="lead" style="font-size:30px"><strong>Cart ID=32</strong></p>
+                             <div class='panel-body text-center'>
+                               <p class='lead' style='font-size:30px'><strong>Cart ID=$obj->oid</strong></p>
                              </div>
-                             <ul class="list-group list-group-flush text-center" style="height: 130px; overflow: auto">
-                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
-                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Personal use</li>
-                               <li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
-                               <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
-                               <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>
-                             </ul>
-                             <div class="panel-footer">
-                               <a class="btn btn-lg btn-block btn-danger" href="#">Delete</a>
+                             <ul class='list-group list-group-flush text-center' style='height: 130px; overflow: auto'>";
+                             $sql1 = "SELECT * FROM quantity WHERE `cart.oid` = '$obj->oid'";
+                             $result1 = $connection->query($sql1);
+                             while ($obj1 = $result1->fetch_object()) {
+                               $ref = $obj1->{"item.reference"};
+                               $sql2 = "SELECT * FROM item WHERE `reference` = '$ref'";
+                               $result2 = $connection->query($sql2);
+                                  while ($obj2 = $result2->fetch_object()) {
+                                    echo "<li class='list-group-item'><i class='icon-ok text-danger'></i>$obj2->name ($obj1->quantity)</li>";
+                                  }
+                             }
+                            echo "</ul>
+                             <div class='panel-footer'>
+                               <a class='btn btn-lg btn-block btn-danger' href='php/delete.php?usercartdel=$obj->oid'>Cancel order</a>
                              </div>
                            </div>
-                         </div>
+                         </div>";
+                      }
+                       ?>
                     </div>
              </div>
            </div>
              <div class="col-md-6" id="personalinfo">
-               <form id="registerform" method="POST" onSubmit="return validationPass()" action="dataupdate.php">
+
+               <form id="registerform" method="POST" onSubmit="return validationPass()" action="php/dataupdate.php">
                  <fieldset>
                    <legend>Personal information:</legend>
                      <div class="form-group" id="alterdata">
                        <br />
                        <label for="email">Email address</label>
-                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo "$obj->email";?>" disabled>
+                       <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="<?php echo "$objuser->email";?>" disabled>
                        <br />
                        <label for="password">New password</label>
                        <input type="password" name="password" class="form-control" id="password" placeholder="New password" disabled>
@@ -223,13 +202,13 @@
                        <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm new password" disabled>
                        <br />
                        <label for="name1">Name</label>
-                       <input type="text" name="name" class="form-control" id="name1" placeholder="<?php echo "$obj->name";?>" disabled>
+                       <input type="text" name="name" class="form-control" id="name1" placeholder="<?php echo "$objuser->name";?>" disabled>
                        <br />
                        <label for="surname">Surnames</label>
-                       <input type="text" name="surname" class="form-control" id="surname" placeholder="<?php echo "$obj->surname";?>" disabled>
+                       <input type="text" name="surname" class="form-control" id="surname" placeholder="<?php echo "$objuser->surname";?>" disabled>
                        <br />
                        <label for="address">Address</label>
-                       <input type="text" name="address" class="form-control" id="address" placeholder="<?php echo "$obj->address";?>" disabled>
+                       <input type="text" name="address" class="form-control" id="address" placeholder="<?php echo "$objuser->address";?>" disabled>
                        <br />
                        <label for="passwordold">Actual password</label>
                        <input required type="password" name="passwordold" class="form-control" id="passwordold" placeholder="Original password" disabled>
@@ -256,7 +235,7 @@
                                    </div>';
                                    if ($obj->{"users.id"}!=='14' or $_SESSION['type']=='admin') {
                                    echo '<div class="col-md-4">
-                                     <a style="margin-top:25px; margin-left: 20px;" href="delete.php?message='.$obj->mid.'"class="btn btn-primary ">
+                                     <a style="margin-top:25px; margin-left: 20px;" href="php/delete.php?message='.$obj->mid.'"class="btn btn-primary ">
                                      Remove
                                      </a>
                                      </div>';

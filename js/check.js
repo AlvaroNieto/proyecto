@@ -26,6 +26,6 @@ function validationPass(){
 function alertlogout() {
     var logout = confirm("Are you sure you want to log out?");
     if (logout == true) {
-        window.location.href = "logout.php";
+        window.location.href = "php/logout.php";
     }
 };

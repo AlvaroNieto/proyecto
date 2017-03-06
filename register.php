@@ -12,7 +12,7 @@
     </head>
     <body>
       <?php
-      include_once("connection.php");
+      include_once("php/connection.php");
       session_start();
       var_dump($_SESSION);
       if (!isset($_POST['register'])) {
@@ -61,7 +61,7 @@
                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'
                         aria-haspopup='true' aria-expanded='false'>Log in<span class='caret'></span></a>
                         <ul class='dropdown-menu'>
-                          <form class='navbar-form navbar-left' method='POST' action='login.php'>
+                          <form class='navbar-form navbar-left' method='POST' action='php/login.php'>
                             <div class='form-group'>
                                 <!--user-->
                               <input type='text' class='form-control' name='user' placeholder='user'><br><br>
@@ -80,7 +80,7 @@
 
           </div>
           <div class="col-md-12" id="sidebar">
-            <form id="registerform" method="POST" onSubmit="return validationPass();" action="registerer.php" >
+            <form id="registerform" method="POST" onSubmit="return validationPass();" action="php/registerer.php" >
               <div class="form-group" method="POST">
                 <label for="username">Username</label>
                 <input required type="text" name="username" class="form-control" id="username" placeholder="Enter username">

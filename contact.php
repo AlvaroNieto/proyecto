@@ -11,7 +11,7 @@
     </head>
     <body>
       <?php
-      include_once("connection.php");
+      include_once("php/connection.php");
       session_start();
       var_dump($_SESSION);
       var_dump($_POST);
@@ -47,9 +47,9 @@
                     <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
                     <li><a href="contact.php">Contact</a></li>
                   </ul>
-                  <form class="navbar-form navbar-left">
+                  <form class="navbar-form navbar-left" method="GET" action="index.php">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Search">
+                      <input type="text" class="form-control" placeholder="Search" name="searchname" required>
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                   </form>
@@ -65,7 +65,7 @@
                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'
                         aria-haspopup='true' aria-expanded='false'>Log in<span class='caret'></span></a>
                         <ul class='dropdown-menu'>
-                          <form class='navbar-form navbar-left' id='loger' method='POST' action='login.php'>
+                          <form class='navbar-form navbar-left' id='loger' method='POST' action='php/login.php'>
                             <div class='form-group'>
                                 <!--user-->
                               <input type='text' class='form-control' name='user' placeholder='user' required><br><br>

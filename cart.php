@@ -23,7 +23,7 @@
       $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
 
       //TESTING IF THE CONNECTION WAS RIGHT
-      include_once("connection.php");
+      include_once("php/connection.php");
       $sql="select * from users where
       nick='".$_SESSION["user"]."';";
 
@@ -67,12 +67,12 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                    <li><a href="#">Cart</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="cart.php">Cart <?php if(isset($_SESSION['cartadd']) && !empty($_SESSION['cartadd'])) {echo "<i class='glyphicon glyphicon-exclamation-sign'></i>";}?></a></li>
+                    <li><a href="contact.php">Contact</a></li>
                   </ul>
-                  <form class="navbar-form navbar-left">
+                  <form class="navbar-form navbar-left" method="GET" action="index.php">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Search">
+                      <input type="text" class="form-control" placeholder="Search" name="searchname" required>
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                   </form>
@@ -88,7 +88,7 @@
                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'
                         aria-haspopup='true' aria-expanded='false'>Log in<span class='caret'></span></a>
                         <ul class='dropdown-menu'>
-                          <form class='navbar-form navbar-left' id='loger' method='POST' action='login.php'>
+                          <form class='navbar-form navbar-left' id='loger' method='POST' action='php/login.php'>
                             <div class='form-group'>
                                 <!--user-->
                               <input type='text' class='form-control' name='user' placeholder='user' required><br><br>
@@ -116,7 +116,7 @@
           </div>
           <div class="col-md-12" id="content" style="min-height: 300px;">
             <div class="list-group">
-              <form method="GET" action="buy.php">
+              <form method="GET" action="php/buy.php">
             <?php
             foreach ($_SESSION['cartadd'] as $key => $value) {
               $sql = "SELECT * FROM item WHERE reference = '$value'";
@@ -141,7 +141,7 @@
                             <input style="margin-top:10px;" type="number" class="form-control" name="'.$obj->reference.'"  value="1" required>
                           </label>
 
-                            <a style="margin-top:30px;" href="cartadd.php?remove='.$obj->reference.'"class="btn btn-primary btn-lg btn-block">
+                            <a style="margin-top:30px;" href="php/cartadd.php?remove='.$obj->reference.'"class="btn btn-primary btn-lg btn-block">
                             Remove
                             </a>
                         </div>

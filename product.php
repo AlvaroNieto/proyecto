@@ -11,7 +11,7 @@
     </head>
     <body>
       <?php
-      include_once("connection.php");
+      include_once("php/connection.php");
       session_start();
       var_dump($_SESSION);
       var_dump($_POST);
@@ -66,7 +66,7 @@
                         <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button'
                         aria-haspopup='true' aria-expanded='false'>Log in<span class='caret'></span></a>
                         <ul class='dropdown-menu'>
-                          <form class='navbar-form navbar-left' id='loger' method='POST' action='login.php'>
+                          <form class='navbar-form navbar-left' id='loger' method='POST' action='php/login.php'>
                             <div class='form-group'>
                                 <!--user-->
                               <input type='text' class='form-control' name='user' placeholder='user' required><br><br>

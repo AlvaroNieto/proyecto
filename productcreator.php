@@ -113,12 +113,12 @@
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
-    include_once("connection.php");
+    include_once("php/connection.php");
 
     echo "Upload single image file";
-    echo "<form action='imageupload.php' method='post' enctype='multipart/form-data'>";
+    echo "<form action='php/imageupload.php' method='post' enctype='multipart/form-data'>";
     echo "<input type='file' name='imageToUpload' id='imageToUpload'><button>Upload</button></form>";
-    echo "<form action='upload.php' method='post' enctype='multipart/form-data'>";
+    echo "<form action='php/upload.php' method='post' enctype='multipart/form-data'>";
     echo "<br><br>Create item";
     echo "<br> <table style='border:1px solid black'>";
     echo "<tr>";
@@ -141,15 +141,6 @@
     echo "</tr>";
     echo "</table> ";
     echo "</form>";
-
-    //Comienzo para la tabla empleados.
-
-
-    //TESTING IF THE CONNECTION WAS RIGHT
-    if ($connection->connect_errno) {
-        printf("Connection failed: %s\n", $connection->connect_error);
-        exit();
-    }
 
     if ($result = $connection->query("SELECT * FROM item ORDER BY REFERENCE DESC")) {
       echo '
@@ -175,9 +166,9 @@
                       </tr>
                   </thead>
                   <tbody>
-                  <form action="edit.php" method="post">';
+                  <form action="php/edit.php" method="post">';
                   while($obj = $result->fetch_object()) {
-                    echo '<form action="edit.php" method="post">';
+                    echo '<form action="php/edit.php" method="post">';
                     echo "<tr>
                           <td><input type='text' class='form-control' name='name$obj->reference' value='$obj->name'>
                           </td>
@@ -191,7 +182,7 @@
                           <td><img src=".$obj->pic."></img><input type='text' class='form-control' name='pic' value='$obj->pic'></td>
                           <td><input type='text' class='form-control' name='stock$obj->reference' value='$obj->stock' >
                           <button name='val' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->reference><i class='glyphicon glyphicon-edit'></i></button>
-                          </form><form method='POST' id='deleter' action='delete.php'><button name='val' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->reference>
+                          </form><form method='POST' id='deleter' action='php/delete.php'><button name='val' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->reference>
                           <i class='glyphicon glyphicon-trash'></i></button></td></form></td>
 
                       </tr>";
@@ -201,66 +192,6 @@
                   </tbody>
               </table>
           </div>';
-          /*
-          <tr>description
-              <td><input type="text" class="form-control" value="1"></td>
-              <td>test</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-          </tr>
-          <tr>
-              <td><input type="text" class="form-control" value="2"></td>
-              <td>tester</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-          </tr>
-          <tr>
-              <td><input type="text" class="form-control" value="3"></td>
-              <td>tast</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-          </tr>
-        while($obj = $result->fetch_object()) {
-            echo "<form action='edit.php' method='post'>";
-            echo "<br> <table style='border:1px solid black'>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Value</th>
-                  <th>Chassis</th>
-                  <th>Traction</th>
-                  <th>Transmission</th>
-                  <th>Type</th>
-                  <th>Description</th>
-                  <th>stock</th>
-                  <th>Picture</th>
-                  <th>Edit/Remove</th>
-              </thead>";
-            echo "<tr>";
-            echo "<td><input type='text' name='name$obj->reference' value='$obj->name'></td>";
-            echo "<td><input type='number' name='value$obj->reference' value='$obj->value'></td>";
-            echo "<td><input type='text' name='chassis$obj->reference' value='$obj->chassis'></td>";
-            echo "<td><input type='text' name='traction$obj->reference' value='$obj->traction'></td>";
-            echo "<td><input type='text' name='transmission$obj->reference' value='$obj->transmission'></td>";
-            echo "<td><input type='text' name='type$obj->reference' value='$obj->type'></td>";
-            echo "<td><input type='text' name='description$obj->reference' value='$obj->description'></td>";
-            echo "<td><input type='number' name='stock$obj->reference' value='$obj->stock' ></td>";
-            echo "<td><img src=".$obj->pic."></img><input type='text' name='pic' value='$obj->pic'></td>";
-            echo "<td><button name='val' value=$obj->reference>Edit</button></form>
-            <form method='POST' action='delete.php'><button name='val' value=$obj->reference>Remove</button></td></form>";
-            echo "</tr>";
-            echo "</table> ";
-          }
-
-          $result->close();
-          unset($obj);
-          */
-
-
-
         }
     }
 

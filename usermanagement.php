@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.js">
     </script>
@@ -54,56 +55,6 @@
     });
 });
     </script>
-    <style>
-    table {
-      border-collapse: collapse;
-      margin: 0 auto;
-    }
-    input[type="text"] {
-      width: 80%;
-    }
-    input[type="number"] {
-      width: 60%
-    }
-    img {
-      width: 105px;
-    }
-    td {
-      vertical-align:middle !important;
-    }
-    tbody > tr:hover {
-      background-color: DarkGrey;
-    }
-    .filterable {
-    margin-top: 15px;
-    }
-    .filterable .panel-heading .pull-right {
-        margin-top: -20px;
-    }
-    .filterable .filters input[disabled] {
-        background-color: transparent;
-        border: none;
-        cursor: auto;
-        box-shadow: none;
-        padding: 0;
-        height: auto;
-    }
-    .filterable .filters input[disabled]::-webkit-input-placeholder {
-        color: #333;
-    }
-    .filterable .filters input[disabled]::-moz-placeholder {
-        color: #333;
-    }
-    .filterable .filters input[disabled]:-ms-input-placeholder {
-        color: #333;
-    }
-    #deleter {
-      display: inline;
-    }
-    td {
-      padding: 8px;
-    }
-    </style>
   </head>
   <body>
     <?php
@@ -112,7 +63,7 @@
     if ($_SESSION['type'] !== "admin") {
       header("Location: index.php");
     } else {
-    include_once("connection.php");
+    include_once("php/connection.php");
     if ($result = $connection->query("SELECT * FROM users")) {
       echo '
         <div class="panel panel-primary filterable">
@@ -135,53 +86,16 @@
                       </tr>
                   </thead>
                   <tbody>
-                  <form action="edit.php" method="post">';
-        while($obj = $result->fetch_object()) {
-          if ($obj->type !== 'admin') {
-            $usertype = 'user';
-            $usernotype = 'admin';
-          } else {
-            $usertype = 'admin';
-            $usernotype = 'user';
-          }
-            /*echo "<form action='edit.php' method='post'>";
-            echo "<br> <table style='border:1px solid black'>
-              <thead>
-                <tr>
-                  <th>Nick</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>Address</th>
-                  <th>Type</th>
-                  <th>Name</th>
-                  <th>Surname</th>
-                  <th>Save changes</th>
-              </thead>";
-            echo "<tr>";
-            echo "<td><input type='text' class='form-control' name='nick$obj->id' value='$obj->nick'></td>";
-            echo "<td><input type='email' class='form-control' name='email$obj->id' value='$obj->email'></td>";
-            echo "<td><input type='text' class='form-control' name='password$obj->id' value=''></td>";
-            echo "<td><input type='text' class='form-control' name='address$obj->id' value='$obj->address'></td>";
-            echo '<td><SELECT class="form-control" NAME="type" SIZE="1">
-                     <OPTION VALUE='.$usertype.'>'.$usertype.'</OPTION>
-                     <OPTION VALUE='.$usernotype.'>'.$usernotype.'</OPTION>
-                  </SELECT> </td>';
-            echo "<td><input type='text' class='form-control' name='name$obj->id' value='$obj->name'></td>";
-            echo "<td><input type='text' class='form-control' name='surname$obj->id' value='$obj->surname'></td>";
-            echo "<td><button name='user' value=$obj->id>Edit</button></form>
-            <form method='POST' action='delete.php'><button name='user' value=$obj->id>Remove</button></td></form>";
-            echo "</tr>";
-            echo "</table> ";
-          }
-
-          $result->close();
-          unset($obj);
-
-
-
-          */
-
-                        echo '<form action="edit.php" method="post">';
+                  <form action="php/edit.php" method="post">';
+                    while($obj = $result->fetch_object()) {
+                      if ($obj->type !== 'admin') {
+                        $usertype = 'user';
+                        $usernotype = 'admin';
+                      } else {
+                        $usertype = 'admin';
+                        $usernotype = 'user';
+                      }
+                        echo '<form action="php/edit.php" method="post">';
                         echo "<tr>
                               <td><input type='text' class='form-control' name='nick$obj->id' value='$obj->nick'>
                               </td>
@@ -196,7 +110,7 @@
                               <td><input type='text' class='form-control' name='name$obj->id' value='$obj->name'></td>
                               <td><input type='text' class='form-control' name='surname$obj->id' value='$obj->surname'>
                               <button name='user' style='margin-top:15px; width: 48px;' class='btn btn-primary' value=$obj->id><i class='glyphicon glyphicon-edit'></i></button>
-                              </form><form method='POST' id='deleter' action='delete.php'><button name='user' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->id>
+                              </form><form method='POST' id='deleter' action='php/delete.php'><button name='user' class='btn btn-primary' style='margin-top:15px; width: 48px;' value=$obj->id>
                               <i class='glyphicon glyphicon-trash'></i></button></td></form></td>
 
                           </tr>";
