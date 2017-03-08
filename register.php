@@ -14,12 +14,6 @@
       <?php
       include_once("php/connection.php");
       session_start();
-      var_dump($_SESSION);
-      if (!isset($_POST['register'])) {
-        var_dump($_POST);
-        var_dump("TEST");
-      }
-
       ?>
      <div class="container">
        <?php

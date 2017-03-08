@@ -18,6 +18,12 @@
         $_SESSION["user"]= "unloged";
         $_SESSION["type"]= "none";
       }
+
+
+      if (isset($_GET["page"])) {
+        $page = $_GET["page"];
+        unset($_GET["page"]);
+      } else { $page = 1; }
       ?>
      <div class="container">
        <?php
@@ -136,14 +142,17 @@
                     <?php
                       $sql="select DISTINCT type from item;";
                       $result = $connection->query($sql);
+                      $setter = $_GET['type'];
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['type[]'] == $obj->type) {
-                        echo " selected='selected' >$obj->type</option>";
-                      } else {
+                        for ($i=0; $i < count($setter); $i++) {
+                          if ($setter[$i] == $obj->type) {
+                          echo " selected='selected'>$obj->type</option>";
+                          array_shift($setter);
+                        }
+                      }
                         echo ">$obj->type</option>";
                       }
-                    }
                      ?>
                   </select>
                 </div>
@@ -153,14 +162,17 @@
                     <?php
                       $sql="select DISTINCT traction from item;";
                       $result = $connection->query($sql);
+                      $setter = $_GET['traction'];
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['traction[]'] == $obj->traction) {
-                        echo " selected='selected' >$obj->traction</option>";
-                      } else {
+                        for ($i=0; $i < count($setter); $i++) {
+                          if ($setter[$i] == $obj->traction) {
+                          echo " selected='selected'>$obj->traction</option>";
+                          array_shift($setter);
+                        }
+                      }
                         echo ">$obj->traction</option>";
                       }
-                    }
                      ?>
                   </select>
                 </div>
@@ -170,14 +182,17 @@
                     <?php
                       $sql="select DISTINCT chassis from item;";
                       $result = $connection->query($sql);
+                      $setter = $_GET['chassis'];
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['chassis[]'] == $obj->chassis) {
-                        echo " selected='selected' >$obj->chassis</option>";
-                      } else {
+                        for ($i=0; $i < count($setter); $i++) {
+                          if ($setter[$i] == $obj->chassis) {
+                          echo " selected='selected'>$obj->chassis</option>";
+                          array_shift($setter);
+                        }
+                      }
                         echo ">$obj->chassis</option>";
                       }
-                    }
                      ?>
                   </select>
                 </div>
@@ -187,14 +202,17 @@
                     <?php
                       $sql="select DISTINCT transmission from item;";
                       $result = $connection->query($sql);
+                      $setter=$_GET['transmission'];
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['transmission'] == $obj->transmission) {
-                        echo " selected='selected' >$obj->transmission</option>";
-                      } else {
+                        for ($i=0; $i < count($setter); $i++) {
+                          if ($setter[$i] == $obj->transmission) {
+                            echo " selected='selected'";
+                          }
+                        }
                         echo ">$obj->transmission</option>";
-                      }
                     }
+
                      ?>
                   </select>
                 </div>
@@ -206,16 +224,27 @@
            <div class="container" id="highlights">
               <div id="products" class="row list-group">
                 <?php
+
                 $counter = 1;
-                $stopper = 4;
-                $build = 'WHERE (';
-                if (isset($_GET['searchname'])) {
-                  $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC;";
+                if (isset($_GET['amount'])) {
+                  $stopper = $_GET['amount'];
                 } else {
-                if (key($_GET) == "amount") {$stopper = array_shift($_GET);}
+                  $stopper = 4;
+                }
+                $build = '';
+                if ($page!=1) {
+                  $max = $stopper*$page-4;
+                  $limit = " LIMIT $max, $max";
+                } else {$limit = '';}
+
+                if (isset($_GET['searchname'])) {
+                  $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC $limit;";
+                } else {
+                if (key($_GET) == "amount") {array_shift($_GET);}
                 if (empty($_GET)) {
-                    $sql = "SELECT * FROM item ORDER BY REFERENCE DESC;";
+                    $sql = "SELECT * FROM item ORDER BY REFERENCE DESC $limit;";
                   } else {
+                    $build = 'WHERE (';
                     foreach ($_GET as $key => $value) {
                       if (isset($_GET[$key])) {
                         foreach ($_GET["$key"] as $key1 => $value1) {
@@ -230,9 +259,11 @@
                       }
                       $str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $build);
                       $str= substr($str, 0, -1);
+
+
                       $sql = "SELECT * FROM item $str
-                       ORDER BY REFERENCE DESC;";
-                       var_dump($sql);
+                       ORDER BY REFERENCE DESC $limit;";
+
                    }
                  }
                   $result = $connection->query($sql);
@@ -269,6 +300,37 @@
                  ?>
                   </div>
                </div>
+               <div class='col-xs-12 col-md-12'>
+               <?php
+               $sql = "SELECT * FROM item $str
+                ORDER BY REFERENCE DESC";
+               $result = $connection->query($sql);
+               $maxpage = mysqli_num_rows($result);
+               $maxpage = ceil($maxpage / $stopper);
+               $nextpage=$page+1;
+               $prevpage=$page-1;
+               if (!isset($page)){
+                 $page = 1;
+               }
+               $pass="&amount=$stopper";
+               if (end($_GET["amount"])!==$stopper && $stopper==4) {
+                     $pass = $pass."&";
+               }
+               foreach ($_GET as $key => $value) {
+                 foreach ($_GET[$key] as $key1 => $value1) {
+                   $pass=$pass."&".$key."%5B%5D=".$value1;
+                 }
+               }
+                if ($page !== NULL && $page >1 ) {
+                  echo "<a class='btn btn-success pull-left' style='margin-bottom:20px;'
+                      name='buy' href='index.php?page=$prevpage$pass'>Previous page</a>";
+                }
+                if ($maxpage > $page) {
+                  echo "<a class='btn btn-success pull-right' style='margin-bottom:20px;'
+                      name='buy' href='index.php?page=$nextpage$pass'>Next page</a>";
+                  }
+                ?>
+                </div>
             </div>
 
           <!-- footer -->
@@ -295,6 +357,7 @@
       </div>
         </div>
         <?php
+
         unset($connection);
          ?>
 
