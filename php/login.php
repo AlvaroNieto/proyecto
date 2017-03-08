@@ -27,4 +27,5 @@ if ($username != NULL && $password != NULL) {
       var_dump($sql);
   }
 }
+unset($connection);
 ?>

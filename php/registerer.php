@@ -18,8 +18,10 @@ if (isset($_POST['username'])) {
              if ($result = $connection->query($sql)) {
                if ($result==true) {
                  session_start();
+                 $last_id = $connection->insert_id;
                  $_SESSION["user"]=$_POST["username"];
                  $_SESSION["type"]="user";
+                 $_SESSION["id"]=$last_id;
                  header("Location: ../index.php");
                } else {
                  echo "something went wrong";
@@ -40,4 +42,5 @@ if (isset($_POST['username'])) {
       var_dump($sql);
     }
   }
+  unset($connection);
  ?>

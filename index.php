@@ -8,21 +8,17 @@
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js">
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
       <?php
-
       include_once("php/connection.php");
       session_start();
       var_dump($_SESSION);
-      var_dump($_POST);
-      var_dump($_GET);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
         $_SESSION["type"]= "none";
       }
-
       ?>
      <div class="container">
        <?php
@@ -215,11 +211,11 @@
                 $stopper = 4;
                 $build = 'WHERE ';
                 if (isset($_GET['searchname'])) {
-                  $sql = "SELECT * FROM ITEM WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC;";
+                  $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC;";
                 } else {
                 if (key($_GET) == "amount") {$stopper = array_shift($_GET);}
                 if (empty($_GET)) {
-                    $sql = "SELECT * FROM ITEM ORDER BY REFERENCE DESC;";
+                    $sql = "SELECT * FROM item ORDER BY REFERENCE DESC;";
                   } else {
                     foreach ($_GET as $key => $value) {
                       if (isset($_GET[$key])) {
@@ -229,7 +225,7 @@
                           }
                         }
                       }
-                      $sql = "SELECT * FROM ITEM $build
+                      $sql = "SELECT * FROM item $build
                        ORDER BY REFERENCE DESC;";
                        var_dump($sql);
                    }
@@ -294,7 +290,7 @@
       </div>
         </div>
         <?php
-
+        unset($connection);
          ?>
 
          <script type="text/javascript" src="js/bootstrap.min.js">

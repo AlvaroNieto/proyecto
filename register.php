@@ -7,8 +7,8 @@
     <title></title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="register.css?v=4z/t6@EHm4">
-    <link rel="stylesheet" type="text/css" href="index.css?v='#kl)soen/at|=0s3x">
+    <link rel="stylesheet" type="text/css" href="css/register.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
       <?php
@@ -17,7 +17,7 @@
       var_dump($_SESSION);
       if (!isset($_POST['register'])) {
         var_dump($_POST);
-        var_dump(" TEST");
+        var_dump("TEST");
       }
 
       ?>
@@ -129,6 +129,7 @@
         </div>
       </div>
         <?php
+        unset($connection);
          ?>
          <script src="https://code.jquery.com/jquery-3.1.1.js"
             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="

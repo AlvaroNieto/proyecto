@@ -11,8 +11,8 @@
    </script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="cart.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/cart.css">
     </head>
     <body>
       <?php
@@ -20,9 +20,6 @@
       if ($_SESSION['user'] == "unloged") {
         header("Location: index.php");
       } else {
-      $connection = new mysqli("localhost", "root", "Alvaro", "tienda");
-
-      //TESTING IF THE CONNECTION WAS RIGHT
       include_once("php/connection.php");
       $sql="select * from users where
       nick='".$_SESSION["user"]."';";
@@ -149,7 +146,7 @@
                 }
             }
 
-
+            unset($connection);
              ?>
             <div style="margin: 0 auto; width: 200px; margin-top: 40px">
                  <input type="submit" class="btn btn-success center-block" value="Comprar"></a>
@@ -157,20 +154,6 @@
              </form>
               </div>
           </div>
-          <!-- footer
-          <div class="col-md-3 text-center">
-              <h2> 12424 <small> votes </small></h2>
-              <button type="button" class="btn btn-primary btn-lg btn-block"> Delete </button>
-              <div class="stars">
-                  <span class="glyphicon glyphicon-star"></span>
-                  <span class="glyphicon glyphicon-star"></span>
-                  <span class="glyphicon glyphicon-star"></span>
-                  <span class="glyphicon glyphicon-star"></span>
-                  <span class="glyphicon glyphicon-star-empty"></span>
-              </div>
-              <p> Average 3.9 <small> / </small> 5 </p>
-          </div>
-        -->
           <div class="col-md-2" id="footerL">
             <address>
               <strong>2AsirTriana</strong><br>

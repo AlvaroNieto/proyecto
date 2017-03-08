@@ -42,9 +42,9 @@
     </script>
      <link href="css/bootstrap.css" rel="stylesheet">
      <link href="js/bootstrap.js" rel="stylesheet">
-     <link rel="stylesheet" type="text/css" href="index.css">
-     <link rel="stylesheet" type="text/css" href="cart.css">
-     <link rel="stylesheet" type="text/css" href="profile.css">
+     <link rel="stylesheet" type="text/css" href="css/index.css">
+     <link rel="stylesheet" type="text/css" href="css/cart.css">
+     <link rel="stylesheet" type="text/css" href="css/profile.css">
      </head>
      <body>
        <?php
@@ -148,11 +148,11 @@
                <div class="list-group-item" style="min-height:100px; margin-top:20px;margin-bottom:20px; overflow:auto; ">
                     <div class="col-md-12" style="height: 375px; overflow-y: scroll;">
                       <?php
-                      $sql = "SELECT * FROM USERS WHERE `nick` = '".$_SESSION['user']."'";
+                      $sql = "SELECT * FROM users WHERE `nick` = '".$_SESSION['user']."'";
                       $result = $connection->query($sql);
                       $obj = $result->fetch_object();
                       $userid = $obj->id;
-                      $sql = "SELECT * FROM CART WHERE `users.id` = '$userid' ORDER BY `oid` DESC";
+                      $sql = "SELECT * FROM cart WHERE `users.id` = '$userid' ORDER BY `oid` DESC";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
                         echo "<div class='col-md-4'>
@@ -171,7 +171,7 @@
                                $sql2 = "SELECT * FROM item WHERE `reference` = '$ref'";
                                $result2 = $connection->query($sql2);
                                   while ($obj2 = $result2->fetch_object()) {
-                                    echo "<li class='list-group-item'><i class='icon-ok text-danger'></i>$obj2->name ($obj1->quantity)</li>";
+                                    echo "<li class='list-group-item'><i class='icon-ok text-danger'></i><a href='item.php?id=$ref' class='btn btn-primary btn-xs'>$obj2->name ($obj1->quantity)</a></li>";
                                   }
                              }
                             echo "</ul>
@@ -226,7 +226,7 @@
                        $obj = $result->fetch_object();
                        $id = $obj->id;
                        $sql = "SELECT * FROM messages where `users.id` = '$id' or '14'";
-                       $result = $connection->query("SELECT * FROM messages where `users.id` = '$id' or `users.id` = '14'");
+                       $result = $connection->query("SELECT * FROM messages where `users.id` = '$id' or `users.id` = '14' ORDER BY `mid` DESC");
                        while ($obj = $result->fetch_object()) {
                          echo "";
                          echo '<div class="list-group-item" style="min-height:100px; margin-top:20px;">
@@ -242,6 +242,7 @@
                                  }
                          echo "</div>";
                        }
+                       unset($connection);
                         ?>
                       </div>
              </div>

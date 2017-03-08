@@ -60,7 +60,8 @@ $sql="INSERT INTO `item` (`reference`, `name`, `value`,
   } else {
     echo "error";
     echo "$sql<br/><br/>";
-    echo "Error uploading the image, check if the item was created properly.";
+    echo "Check the length of both descriptions.";
   }
 }
+unset($connection);
  ?>

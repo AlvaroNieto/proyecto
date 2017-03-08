@@ -7,13 +7,13 @@ $prize=0;
 $ok="ok";
 include_once("connection.php");
 foreach ($_GET as $key => $value) {
-  $sql="SELECT * FROM ITEM WHERE REFERENCE = $key";
+  $sql="SELECT * FROM item WHERE REFERENCE = $key";
   $result = $connection->query($sql);
   $obj = $result->fetch_object();
   $prize=$prize + ($obj->value*$value);
 }
 if ($prize !== 0) {
-  $sql = 'SELECT * FROM USERS WHERE NICK = "'.$_SESSION['user'].'"';
+  $sql = 'SELECT * FROM users WHERE nick = "'.$_SESSION['user'].'"';
   $result = $connection->query($sql);
   $obj = $result->fetch_object();
   $id=$obj->id;
@@ -45,4 +45,5 @@ if ($prize !== 0) {
   echo "You need to select at least 1 item in order to proceed. Returning...";
   header( "refresh:4; url=../index.php" );
 }
+unset($connection);
 ?>

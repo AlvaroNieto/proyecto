@@ -7,14 +7,12 @@
     <title></title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css?v=0x#kl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
       <?php
       include_once("php/connection.php");
       session_start();
-      var_dump($_SESSION);
-      var_dump($_POST);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
       }
@@ -83,7 +81,7 @@
                       <li><a id='logerout' onclick='return alertlogout()' href='#' value='logout'>Logout</a></li>
                       ";
                   }
-
+                  unset($connection);
                     ?>
                   </ul>
                 </div><!-- /.navbar-collapse -->

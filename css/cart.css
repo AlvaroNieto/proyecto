@@ -1,0 +1,21 @@
+div.list-group-item {
+    height:auto;
+    min-height:250px;
+}
+a.list-group-item {
+    height:auto;
+    min-height:100px;
+}
+.stars {
+    margin:20px auto 1px;
+}
+img {
+  width: auto !important;
+}
+
+#messagediv {
+  height: 80px !important;
+}
+#messages {
+  min-height: 700px;
+}

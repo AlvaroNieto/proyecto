@@ -63,7 +63,7 @@ if ($_SESSION['type'] !== "admin") {
     }
     if(isset($_POST['sender'])) {
       $id=$_POST['editor'];
-        $sql1 = "SELECT * FROM `USERS` where nick = '".$_POST['nick']."'";
+        $sql1 = "SELECT * FROM `users` where nick = '".$_POST['nick']."'";
         $result = $connection->query($sql1);
         $obj = $result->fetch_object();
         $id = $obj->id;
@@ -79,4 +79,5 @@ if ($_SESSION['type'] !== "admin") {
         }
     }
   }
+  unset($connection);
  ?>

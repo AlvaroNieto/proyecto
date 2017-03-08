@@ -87,15 +87,15 @@
                   <form action="php/edit.php" method="post">';
         while($obj = $result->fetch_object()) {
           $id=$obj->{'users.id'};
-          $sql2 = "SELECT * FROM USERS WHERE ID = '$id'";
+          $sql2 = "SELECT * FROM users WHERE id = '$id'";
           $result2 = $connection->query($sql2);
           $obj2 = $result2->fetch_object();
-          $sql3 = "SELECT * FROM QUANTITY WHERE `cart.oid`='$obj->oid'";
+          $sql3 = "SELECT * FROM quantity WHERE `cart.oid`='$obj->oid'";
           $result3 = $connection->query($sql3);
           $products = '';
           while ($obj3 = $result3->fetch_object()) {
             $ref=$obj3->{"item.reference"};
-            $sql4 = "SELECT * FROM ITEM WHERE `REFERENCE` = '$ref'";
+            $sql4 = "SELECT * FROM item WHERE `reference` = '$ref'";
             $result4 = $connection->query($sql4);
             $obj4 = $result4->fetch_object();
             $products = "$products ".$obj3->quantity."->".$obj4->name;
@@ -120,6 +120,7 @@
               </div>';
         }
     }
+    unset($connection);
     ?>
 
     <script type="text/javascript" src="js/bootstrap.min.js">

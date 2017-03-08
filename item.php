@@ -9,7 +9,7 @@
     </script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css?v=xkl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
       <?php
@@ -90,7 +90,7 @@
           </div>
           <div class="col-md-12" id="content">
             <?php
-            $sql = "SELECT * FROM ITEM WHERE REFERENCE = '".$_GET['id']."';";
+            $sql = "SELECT * FROM item WHERE REFERENCE = '".$_GET['id']."';";
             $result = $connection->query($sql);
             $obj = $result->fetch_object();
             echo "<img src='".$obj->pic."'>";
@@ -104,6 +104,7 @@
               <li class="list-group-item list-group-item-info">Tracción '.$obj->traction.'</li>
             </ul>';
             echo '<a class="btn btn-success" name="buy" href="php/cartadd.php?id='.$obj->reference.'">Add to cart</a>';
+            unset($connection);
              ?>
           </div>
           <!-- footer -->

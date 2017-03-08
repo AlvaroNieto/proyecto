@@ -7,14 +7,12 @@
     <title></title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="index.css?v=0x#kl)Xip/t|=7s3x">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
       <?php
       include_once("php/connection.php");
       session_start();
-      var_dump($_SESSION);
-      var_dump($_POST);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
       }
@@ -116,20 +114,6 @@
                 }
             }
              ?>
-            <!--
-            <div class="dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
-              <span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">W3Schools</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-              </ul>
-            </div>-->
-
           </div>
           <div class="col-md-10" id="sidebar">
 
@@ -157,6 +141,7 @@
         </div>
       </div>
         <?php
+        unset($connection);
          ?>
          <script src="https://code.jquery.com/jquery-3.1.1.js"
             integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="

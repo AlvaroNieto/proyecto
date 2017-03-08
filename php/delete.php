@@ -17,6 +17,7 @@ if (isset($_GET['usercartdel'])) {
   if ($obj->{"users.id"} == $_SESSION['id']) {
     $sql="DELETE FROM `cart` WHERE `oid` = ".$_GET['usercartdel'].";";
     if ($result = $connection->query($sql)) {
+      var_dump($sql);
       header("Location: ../profile.php");
     } else {
       echo "something went wrong";
@@ -26,7 +27,8 @@ if (isset($_GET['usercartdel'])) {
     header("Location: ../index.php");
   }
 }
-if ($_SESSION['type'] !== "admin") {
+
+if ($_SESSION['type'] !== "admin" && !isset($_GET['usercartdel']) && !isset($_GET['message'])) {
   header("Location: ../index.php");
 } else {
   if (isset($_POST['val'])) {
@@ -63,4 +65,5 @@ if ($_SESSION['type'] !== "admin") {
     }
   }
 }
+unset($connection);
  ?>

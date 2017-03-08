@@ -43,4 +43,5 @@ if (isset($_SESSION["type"])) {
        }
      }
   }
+  unset($connection);
  ?>
