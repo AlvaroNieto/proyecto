@@ -14,7 +14,6 @@
       <?php
       include_once("php/connection.php");
       session_start();
-      var_dump($_SESSION);
       if ($_SESSION == NULL) {
         $_SESSION["user"]= "unloged";
         $_SESSION["type"]= "none";
@@ -100,7 +99,7 @@
               <form method="GET" action="index.php">
                 <div class="form-group">
                   <label for="sel3">Items per page:</label>
-                  <select multiple class="form-control" name="amount" id="sel5">
+                  <select class="form-control" name="amount" id="sel5">
                     <option
                     <?php
                       if (!isset($_GET['amount']) or $_GET['amount']=='4') {
@@ -133,13 +132,13 @@
                 </div>
                 <div class="form-group">
                   <label for="sel1">Motor</label>
-                  <select multiple class="form-control" name="type" id="sel1">
+                  <select multiple class="form-control" name="type[]" id="sel1">
                     <?php
                       $sql="select DISTINCT type from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['type'] == $obj->type) {
+                        if ($_GET['type[]'] == $obj->type) {
                         echo " selected='selected' >$obj->type</option>";
                       } else {
                         echo ">$obj->type</option>";
@@ -150,13 +149,13 @@
                 </div>
                 <div class="form-group">
                   <label for="sel4">Tracción</label>
-                  <select multiple class="form-control" name="traction" id="sel4">
+                  <select multiple class="form-control" name="traction[]" id="sel4">
                     <?php
                       $sql="select DISTINCT traction from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['traction'] == $obj->traction) {
+                        if ($_GET['traction[]'] == $obj->traction) {
                         echo " selected='selected' >$obj->traction</option>";
                       } else {
                         echo ">$obj->traction</option>";
@@ -167,13 +166,13 @@
                 </div>
                 <div class="form-group">
                   <label for="sel2">Chasis</label>
-                  <select multiple class="form-control" name="chassis" id="sel2">
+                  <select multiple class="form-control" name="chassis[]" id="sel2">
                     <?php
                       $sql="select DISTINCT chassis from item;";
                       $result = $connection->query($sql);
                       while ($obj = $result->fetch_object()) {
                         echo "<option";
-                        if ($_GET['chassis'] == $obj->chassis) {
+                        if ($_GET['chassis[]'] == $obj->chassis) {
                         echo " selected='selected' >$obj->chassis</option>";
                       } else {
                         echo ">$obj->chassis</option>";
@@ -184,7 +183,7 @@
                 </div>
                 <div class="form-group">
                   <label for="sel3">Transmisión</label>
-                  <select multiple class="form-control" name="transmission" id="sel3">
+                  <select multiple class="form-control" name="transmission[]" id="sel3">
                     <?php
                       $sql="select DISTINCT transmission from item;";
                       $result = $connection->query($sql);
@@ -209,7 +208,7 @@
                 <?php
                 $counter = 1;
                 $stopper = 4;
-                $build = 'WHERE ';
+                $build = 'WHERE (';
                 if (isset($_GET['searchname'])) {
                   $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC;";
                 } else {
@@ -219,19 +218,25 @@
                   } else {
                     foreach ($_GET as $key => $value) {
                       if (isset($_GET[$key])) {
-                        $build = $build."$key = '$value' ";
-                        if (end($_GET)!==$value) {
-                            $build = $build."AND ";
+                        foreach ($_GET["$key"] as $key1 => $value1) {
+                          $build = $build."$key = '$value1' ";
+                          if (end($_GET["$key"])!==$value1) {
+                              $build = $build."OR ";
+                            } elseif (end($_GET["$key"])==$value1) {
+                                  $build = $build.") AND (";
+                            }
                           }
                         }
                       }
-                      $sql = "SELECT * FROM item $build
+                      $str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $build);
+                      $str= substr($str, 0, -1);
+                      $sql = "SELECT * FROM item $str
                        ORDER BY REFERENCE DESC;";
                        var_dump($sql);
                    }
                  }
                   $result = $connection->query($sql);
-                  if (mysqli_num_rows($result) == 0 && isset($_GET['searchname'])) {
+                  if (mysqli_num_rows($result) == 0) {
                     echo "No results found.";
                    }
                   while ($obj = $result->fetch_object()) {
@@ -258,8 +263,8 @@
                           </div>
                       </div>';
                       if ($counter == $stopper) {break;}
-                      $counter++;
-                }
+                            $counter++;
+                  }
 
                  ?>
                   </div>
