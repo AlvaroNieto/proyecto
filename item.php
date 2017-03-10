@@ -16,7 +16,6 @@
       include_once("php/connection.php");
       session_start();
       ?>
-     <div class="container">
        <?php
        if ($_SESSION["type"] == "admin") {
          include_once("controlpanel.php");
@@ -24,7 +23,7 @@
         ?>
         <div class="col-md-12" id="container">
           <div class="col-md-12" id="header">
-            <img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/>
+                        <a href="index.php"><img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/></a>
             <nav class="navbar navbar-default" id="navbar">
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -129,7 +128,6 @@
           <!-- end of footer -->
           </div>
         </div>
-      </div>
 
          <script type="text/javascript" src="js/bootstrap.min.js">
          </script>

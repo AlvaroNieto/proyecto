@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="" style="height:100%;">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
     <link href="js/bootstrap.js" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
-    <body>
+    <body style="height:100%;">
       <?php
       include_once("php/connection.php");
       session_start();
@@ -17,15 +17,14 @@
         $_SESSION["user"]= "unloged";
       }
       ?>
-     <div class="container">
        <?php
        if ($_SESSION["type"] == "admin") {
          include_once("controlpanel.php");
        }
         ?>
-        <div class="col-md-12" id="container">
+        <div class="col-md-12" id="container" style="min-height:100%;">
           <div class="col-md-12" id="header">
-            <img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/>
+                        <a href="index.php"><img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/></a>
             <nav class="navbar navbar-default" id="navbar">
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -119,7 +118,6 @@
           <!-- end of footer -->
           </div>
         </div>
-      </div>
         <?php
          ?>
          <script src="https://code.jquery.com/jquery-3.1.1.js"

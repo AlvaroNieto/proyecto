@@ -33,7 +33,7 @@
         ?>
         <div class="col-md-12" id="container">
           <div class="col-md-12" id="header">
-            <img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/>
+            <a href="index.php"><img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/></a>
             <nav class="navbar navbar-default" id="navbar" >
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -100,240 +100,241 @@
             </nav>
 
           </div>
-          <div class="col-md-2" id="content">
-            <fieldset>
-              <legend>Filtrar:</legend>
-              <form method="GET" action="index.php">
-                <div class="form-group">
-                  <label for="sel3">Items per page:</label>
-                  <select class="form-control" name="amount" id="sel5">
-                    <option
-                    <?php
-                      if (!isset($_GET['amount']) or $_GET['amount']=='4') {
-                        echo "selected='selected'";
-                      }
-                    ?>
-                    value='4'>4</option>";
-                    <option
+          <div id="insider" class="col-md-12" style="margin-bottom:20px">
+            <div class="col-md-2" id="content">
+              <fieldset>
+                <legend>Filtrar:</legend>
+                <form method="GET" action="index.php">
+                  <div class="form-group">
+                    <label for="sel3">Items per page:</label>
+                    <select class="form-control" name="amount" id="sel5">
+                      <option
                       <?php
-                        if ($_GET['amount']=='8') {
+                        if (!isset($_GET['amount']) or $_GET['amount']=='4') {
                           echo "selected='selected'";
                         }
                       ?>
-                      value='8'>8</option>";
-                    <option
-                    <?php
-                      if ($_GET['amount']=='12') {
-                        echo "selected='selected'";
-                      }
-                    ?>
-                     value='12'>12</option>";
-                    <option
-                    <?php
-                      if ($_GET['amount']=='16') {
-                        echo "selected='selected'";
-                      }
-                    ?>
-                     value='16'>16</option>";
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="sel1">Motor</label>
-                  <select multiple class="form-control" name="type[]" id="sel1">
-                    <?php
-                      $sql="select DISTINCT type from item;";
-                      $result = $connection->query($sql);
-                      $setter = $_GET['type'];
-                      while ($obj = $result->fetch_object()) {
-                        echo "<option";
-                        for ($i=0; $i < count($setter); $i++) {
-                          if ($setter[$i] == $obj->type) {
-                          echo " selected='selected'>$obj->type</option>";
-                          array_shift($setter);
+                      value='4'>4</option>";
+                      <option
+                        <?php
+                          if ($_GET['amount']=='8') {
+                            echo "selected='selected'";
+                          }
+                        ?>
+                        value='8'>8</option>";
+                      <option
+                      <?php
+                        if ($_GET['amount']=='12') {
+                          echo "selected='selected'";
                         }
-                      }
-                        echo ">$obj->type</option>";
-                      }
-                     ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="sel4">Tracción</label>
-                  <select multiple class="form-control" name="traction[]" id="sel4">
-                    <?php
-                      $sql="select DISTINCT traction from item;";
-                      $result = $connection->query($sql);
-                      $setter = $_GET['traction'];
-                      while ($obj = $result->fetch_object()) {
-                        echo "<option";
-                        for ($i=0; $i < count($setter); $i++) {
-                          if ($setter[$i] == $obj->traction) {
-                          echo " selected='selected'>$obj->traction</option>";
-                          array_shift($setter);
+                      ?>
+                       value='12'>12</option>";
+                      <option
+                      <?php
+                        if ($_GET['amount']=='16') {
+                          echo "selected='selected'";
                         }
-                      }
-                        echo ">$obj->traction</option>";
-                      }
-                     ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="sel2">Chasis</label>
-                  <select multiple class="form-control" name="chassis[]" id="sel2">
-                    <?php
-                      $sql="select DISTINCT chassis from item;";
-                      $result = $connection->query($sql);
-                      $setter = $_GET['chassis'];
-                      while ($obj = $result->fetch_object()) {
-                        echo "<option";
-                        for ($i=0; $i < count($setter); $i++) {
-                          if ($setter[$i] == $obj->chassis) {
-                          echo " selected='selected'>$obj->chassis</option>";
-                          array_shift($setter);
-                        }
-                      }
-                        echo ">$obj->chassis</option>";
-                      }
-                     ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="sel3">Transmisión</label>
-                  <select multiple class="form-control" name="transmission[]" id="sel3">
-                    <?php
-                      $sql="select DISTINCT transmission from item;";
-                      $result = $connection->query($sql);
-                      $setter=$_GET['transmission'];
-                      while ($obj = $result->fetch_object()) {
-                        echo "<option";
-                        for ($i=0; $i < count($setter); $i++) {
-                          if ($setter[$i] == $obj->transmission) {
-                            echo " selected='selected'";
+                      ?>
+                       value='16'>16</option>";
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="sel1">Motor</label>
+                    <select multiple class="form-control" name="type[]" id="sel1">
+                      <?php
+                        $sql="select DISTINCT type from item;";
+                        $result = $connection->query($sql);
+                        $setter = $_GET['type'];
+                        while ($obj = $result->fetch_object()) {
+                          echo "<option";
+                          for ($i=0; $i < count($setter); $i++) {
+                            if ($setter[$i] == $obj->type) {
+                            echo " selected='selected'>$obj->type</option>";
+                            array_shift($setter);
                           }
                         }
-                        echo ">$obj->transmission</option>";
-                    }
+                          echo ">$obj->type</option>";
+                        }
+                       ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="sel4">Tracción</label>
+                    <select multiple class="form-control" name="traction[]" id="sel4">
+                      <?php
+                        $sql="select DISTINCT traction from item;";
+                        $result = $connection->query($sql);
+                        $setter = $_GET['traction'];
+                        while ($obj = $result->fetch_object()) {
+                          echo "<option";
+                          for ($i=0; $i < count($setter); $i++) {
+                            if ($setter[$i] == $obj->traction) {
+                            echo " selected='selected'>$obj->traction</option>";
+                            array_shift($setter);
+                          }
+                        }
+                          echo ">$obj->traction</option>";
+                        }
+                       ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="sel2">Chasis</label>
+                    <select multiple class="form-control" name="chassis[]" id="sel2">
+                      <?php
+                        $sql="select DISTINCT chassis from item;";
+                        $result = $connection->query($sql);
+                        $setter = $_GET['chassis'];
+                        while ($obj = $result->fetch_object()) {
+                          echo "<option";
+                          for ($i=0; $i < count($setter); $i++) {
+                            if ($setter[$i] == $obj->chassis) {
+                            echo " selected='selected'>$obj->chassis</option>";
+                            array_shift($setter);
+                          }
+                        }
+                          echo ">$obj->chassis</option>";
+                        }
+                       ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="sel3">Transmisión</label>
+                    <select multiple class="form-control" name="transmission[]" id="sel3">
+                      <?php
+                        $sql="select DISTINCT transmission from item;";
+                        $result = $connection->query($sql);
+                        $setter=$_GET['transmission'];
+                        while ($obj = $result->fetch_object()) {
+                          echo "<option";
+                          for ($i=0; $i < count($setter); $i++) {
+                            if ($setter[$i] == $obj->transmission) {
+                              echo " selected='selected'";
+                            }
+                          }
+                          echo ">$obj->transmission</option>";
+                      }
 
-                     ?>
-                  </select>
-                </div>
-                <input type="submit" class="btn btn-default btn-xs" value="Filtrar">
-            </form>
-            </fieldset>
-          </div>
-          <div class="col-md-10" id="sidebar">
-           <div class="container" id="highlights">
-              <div id="products" class="row list-group">
-                <?php
+                       ?>
+                    </select>
+                  </div>
+                  <input type="submit" class="btn btn-default" value="Filtrar">
+              </form>
+              </fieldset>
+            </div>
+            <div class="col-md-10" id="sidebar">
+             <div class="container" id="highlights">
+                <div id="products" class="row list-group">
+                  <?php
 
-                $counter = 1;
-                if (isset($_GET['amount'])) {
-                  $stopper = $_GET['amount'];
-                } else {
-                  $stopper = 4;
-                }
-                $build = '';
-                if ($page!=1) {
-                  $max = $stopper*$page-4;
-                  $limit = " LIMIT $max, $max";
-                } else {$limit = '';}
-
-                if (isset($_GET['searchname'])) {
-                  $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC $limit;";
-                } else {
-                if (key($_GET) == "amount") {array_shift($_GET);}
-                if (empty($_GET)) {
-                    $sql = "SELECT * FROM item ORDER BY REFERENCE DESC $limit;";
+                  $counter = 1;
+                  if (isset($_GET['amount'])) {
+                    $stopper = $_GET['amount'];
                   } else {
-                    $build = 'WHERE (';
-                    foreach ($_GET as $key => $value) {
-                      if (isset($_GET[$key])) {
-                        foreach ($_GET["$key"] as $key1 => $value1) {
-                          $build = $build."$key = '$value1' ";
-                          if (end($_GET["$key"])!==$value1) {
-                              $build = $build."OR ";
-                            } elseif (end($_GET["$key"])==$value1) {
-                                  $build = $build.") AND (";
+                    $stopper = 4;
+                  }
+                  $build = '';
+                  if ($page!=1) {
+                    $max = $stopper*$page-4;
+                    $limit = " LIMIT $max, $max";
+                  } else {$limit = '';}
+
+                  if (isset($_GET['searchname'])) {
+                    $sql = "SELECT * FROM item WHERE name like '%".$_GET['searchname']."%'ORDER BY REFERENCE DESC $limit;";
+                  } else {
+                  if (key($_GET) == "amount") {array_shift($_GET);}
+                  if (empty($_GET)) {
+                      $sql = "SELECT * FROM item ORDER BY REFERENCE DESC $limit;";
+                    } else {
+                      $build = 'WHERE (';
+                      foreach ($_GET as $key => $value) {
+                        if (isset($_GET[$key])) {
+                          foreach ($_GET["$key"] as $key1 => $value1) {
+                            $build = $build."$key = '$value1' ";
+                            if (end($_GET["$key"])!==$value1) {
+                                $build = $build."OR ";
+                              } elseif (end($_GET["$key"])==$value1) {
+                                    $build = $build.") AND (";
+                              }
                             }
                           }
                         }
-                      }
-                      $str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $build);
-                      $str= substr($str, 0, -1);
+                        $str= preg_replace('/\W\w+\s*(\W*)$/', '$1', $build);
+                        $str= substr($str, 0, -1);
 
 
-                      $sql = "SELECT * FROM item $str
-                       ORDER BY REFERENCE DESC $limit;";
+                        $sql = "SELECT * FROM item $str
+                         ORDER BY REFERENCE DESC $limit;";
 
+                     }
+                   }
+                    $result = $connection->query($sql);
+                    if (mysqli_num_rows($result) == 0) {
+                      echo "No results found.";
+                     }
+                    while ($obj = $result->fetch_object()) {
+                    echo '<div class="item  col-xs-12 col-lg-6" style="margin-top:10px">
+                            <div class="thumbnail">
+                               <a href="item.php?id='.$obj->reference.'">
+                                <img class="group list-group-image" src="'.$obj->pic.'" id="imageslist" alt="" />
+                                </a>
+                                <div class="caption">
+                                    <h4 class="group inner list-group-item-heading">
+                                        '.$obj->name.'</h4>
+                                    <p class="group inner list-group-item-text" id="itemdescription">
+                                        '.$obj->description.'</p>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-6">
+                                            <p class="lead">
+                                                '.$obj->value.'€</p>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <a class="btn btn-success" name="buy" href="php/cartadd.php?id='.$obj->reference.'">Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                        if ($counter == $stopper) {break;}
+                              $counter++;
+                    }
+
+                   ?>
+                    </div>
+                 </div>
+                 <div class='col-xs-12 col-md-12' style="margin-top: 15px">
+                 <?php
+                 $sql = "SELECT * FROM item $str
+                  ORDER BY REFERENCE DESC";
+                 $result = $connection->query($sql);
+                 $maxpage = mysqli_num_rows($result);
+                 $maxpage = ceil($maxpage / $stopper);
+                 $nextpage=$page+1;
+                 $prevpage=$page-1;
+                 if (!isset($page)){
+                   $page = 1;
+                 }
+                 $pass="&amount=$stopper";
+                 if (end($_GET["amount"])!==$stopper && $stopper==4) {
+                       $pass = $pass."&";
+                 }
+                 foreach ($_GET as $key => $value) {
+                   foreach ($_GET[$key] as $key1 => $value1) {
+                     $pass=$pass."&".$key."%5B%5D=".$value1;
                    }
                  }
-                  $result = $connection->query($sql);
-                  if (mysqli_num_rows($result) == 0) {
-                    echo "No results found.";
-                   }
-                  while ($obj = $result->fetch_object()) {
-                  echo '<div class="item  col-xs-12 col-lg-6" style="margin-top:10px">
-                          <div class="thumbnail">
-                             <a href="item.php?id='.$obj->reference.'">
-                              <img class="group list-group-image" src="'.$obj->pic.'" id="imageslist" alt="" />
-                              </a>
-                              <div class="caption">
-                                  <h4 class="group inner list-group-item-heading">
-                                      '.$obj->name.'</h4>
-                                  <p class="group inner list-group-item-text" id="itemdescription">
-                                      '.$obj->description.'</p>
-                                  <div class="row">
-                                      <div class="col-xs-12 col-md-6">
-                                          <p class="lead">
-                                              '.$obj->value.'€</p>
-                                      </div>
-                                      <div class="col-xs-12 col-md-6">
-                                          <a class="btn btn-success" name="buy" href="php/cartadd.php?id='.$obj->reference.'">Add to cart</a>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>';
-                      if ($counter == $stopper) {break;}
-                            $counter++;
+                  if ($page !== NULL && $page >1 ) {
+                    echo "<a class='btn btn-success pull-left' style='margin-bottom:20px;'
+                        name='buy' href='index.php?page=$prevpage$pass'>Previous page</a>";
                   }
-
-                 ?>
+                  if ($maxpage > $page) {
+                    echo "<a class='btn btn-success pull-right' style='margin-bottom:20px;'
+                        name='buy' href='index.php?page=$nextpage$pass'>Next page</a>";
+                    }
+                  ?>
                   </div>
-               </div>
-               <div class='col-xs-12 col-md-12' style="margin-top: 15px">
-               <?php
-               $sql = "SELECT * FROM item $str
-                ORDER BY REFERENCE DESC";
-               $result = $connection->query($sql);
-               $maxpage = mysqli_num_rows($result);
-               $maxpage = ceil($maxpage / $stopper);
-               $nextpage=$page+1;
-               $prevpage=$page-1;
-               if (!isset($page)){
-                 $page = 1;
-               }
-               $pass="&amount=$stopper";
-               if (end($_GET["amount"])!==$stopper && $stopper==4) {
-                     $pass = $pass."&";
-               }
-               foreach ($_GET as $key => $value) {
-                 foreach ($_GET[$key] as $key1 => $value1) {
-                   $pass=$pass."&".$key."%5B%5D=".$value1;
-                 }
-               }
-                if ($page !== NULL && $page >1 ) {
-                  echo "<a class='btn btn-success pull-left' style='margin-bottom:20px;'
-                      name='buy' href='index.php?page=$prevpage$pass'>Previous page</a>";
-                }
-                if ($maxpage > $page) {
-                  echo "<a class='btn btn-success pull-right' style='margin-bottom:20px;'
-                      name='buy' href='index.php?page=$nextpage$pass'>Next page</a>";
-                  }
-                ?>
-                </div>
+              </div>
             </div>
-
           <!-- footer -->
           <div class="col-md-2" id="footerL">
             <address>
