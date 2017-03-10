@@ -235,7 +235,7 @@
                   }
                   $build = '';
                   if ($page!=1) {
-                    $max = $stopper*$page-4;
+                    $max = $stopper*$page-$stopper;
                     $limit = " LIMIT $max, $max";
                   } else {$limit = '';}
 
