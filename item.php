@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Proyecto PHP</title>
+    <title>Tiendacoches</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js">
     </script>
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -24,6 +24,7 @@
         ?>
         <div class="col-md-12" id="container">
           <div class="col-md-12" id="header">
+            <img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/>
             <nav class="navbar navbar-default" id="navbar">
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->

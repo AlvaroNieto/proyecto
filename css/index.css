@@ -1,11 +1,10 @@
 div#container {
-  background-color: red;
   height: auto;
+  background-color: #c4c4c4;
 }
 
 div#header {
-  background-color: blue;
-  height: 200px;
+  min-height: 200px;
 }
 
 ::-webkit-scrollbar {
@@ -14,20 +13,26 @@ div#header {
 }
 
 div#content {
-  background-color: grey;
   height: auto;
-  min-height: 990px;
   padding: 20px;
 }
 
 div#sidebar {
-  background-color: green;
-  height: auto;
   min-height: 990px;
+  overflow:auto;
 }
 
+@media only screen and (min-width:992px){
+        div#content {
+          overflow:auto;
+        }
+        nav#navbar {
+         margin-top:145px;
+        }
+
+    }
+
 div#footer{
-  background-color: blue;
 }
 
 div#footerL,div#footer,div#footerR {
@@ -35,14 +40,12 @@ div#footerL,div#footer,div#footerR {
 }
 
 div#footerL,div#footerR {
-  background-color: red;
 }
 ul#products {
   padding: 10px;
+  overflow: auto;
 }
-nav#navbar {
- margin-top:145px;
-}
+
 
 .input-group{
   width: 100%;
@@ -57,6 +60,9 @@ nav#navbar {
 .items {
   width: 100%;
   margin: 0 auto;
+}
+.item {
+  height: 480px !important;
 }
 
 img {

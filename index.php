@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Tiendacoches</title>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="js/bootstrap.js">
@@ -25,7 +25,7 @@
         unset($_GET["page"]);
       } else { $page = 1; }
       ?>
-     <div class="container">
+
        <?php
        if ($_SESSION["type"] == "admin") {
          include_once("controlpanel.php");
@@ -33,7 +33,8 @@
         ?>
         <div class="col-md-12" id="container">
           <div class="col-md-12" id="header">
-            <nav class="navbar navbar-default" id="navbar">
+            <img class="pull-left" src="images/logo.png" style="height:50px; width:auto;"/>
+            <nav class="navbar navbar-default" id="navbar" >
               <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -271,7 +272,7 @@
                     echo "No results found.";
                    }
                   while ($obj = $result->fetch_object()) {
-                  echo '<div class="item  col-xs-6 col-lg-6">
+                  echo '<div class="item  col-xs-12 col-lg-6" style="margin-top:10px">
                           <div class="thumbnail">
                              <a href="item.php?id='.$obj->reference.'">
                               <img class="group list-group-image" src="'.$obj->pic.'" id="imageslist" alt="" />
@@ -300,7 +301,7 @@
                  ?>
                   </div>
                </div>
-               <div class='col-xs-12 col-md-12'>
+               <div class='col-xs-12 col-md-12' style="margin-top: 15px">
                <?php
                $sql = "SELECT * FROM item $str
                 ORDER BY REFERENCE DESC";
@@ -342,7 +343,7 @@
             </address>
           </div>
           <div class="col-md-8" id="footer">
-
+            <p> Mensaje de cookies generico </p>
           </div>
           <div class="col-md-2" id="footerR">
             <address>
@@ -355,7 +356,7 @@
           </div>
         </div>
       </div>
-        </div>
+
         <?php
 
         unset($connection);
